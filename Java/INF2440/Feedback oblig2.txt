@@ -1,0 +1,27 @@
+Gratulerer!
+
+Obligen er godkjent, detaljer følger. Veldig bra jobbet, en god oblig :)
+
+Eratosthenes sil
+
+Primtallsgenerering
+•Kjempefin implementasjon av generatePrimesByEratosthenes(stop) med stop, får du brukt samme metode for hele sekvensielle og den lille startbiten av parallelle.
+•Fin nextPrime() isammen med isPrime() som bruker arrayet ditt for å finne neste primtall. Flott!
+
+Faktorisering
+•Funker greit som den er. Et tips er at når du har funnet en faktor, kan du effektiv senke grensa for hva neste faktor kan være. Jeg har tenkt å vise hvordan i en gruppetime.
+
+Parallellisering
+
+Primtallsgenerering parallellt
+•Her får du utnyttet sqrt(N) i generatePrimes(stop), for å la trådene jobbe etterpå. Det er bra og effektivt.
+•Fin oppdeling av primtall til trådene, og la de lage primtall i forskjellige deler av området mellom sqrt(max), max.
+
+Faktorisering parallellt
+•Grei oppdeling av jobb til trådene ved å dele primtallene under kvadratrota til tallet som skal faktoriseres. Kunne kanskje effektiviseres om du hadde delt opp jobben til den tråden med de minste primtallene mer ut på trådene enten ved å bytte på å være tråd0, eller prosentvis oppdele primtallene, da det er oftere lave primtallsfaktorer enn høye :)
+
+Rapport
+•Kjempeflott rapport! Det gjorde det veldig mye lettere for meg å følge koden din. Takk! :)
+
+Utskrift og tider
+•Du har fine tider med utskrift i EratosthenesSil, med speedup. Flott!

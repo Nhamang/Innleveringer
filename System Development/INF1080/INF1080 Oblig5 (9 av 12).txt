@@ -1,0 +1,7 @@
+﻿9.8 (P → Q) og (Q → R) er sanne, så er (P → R) sann.
+a) La oss anta at Q er usann, det vil da si at P også er usann for å gjøre (P -> Q) sann. Som vil si at Q -> R og P -> R er sanne uansett verdien til R.
+c) Vi antar at (P -> Q) og (Q -> R) er sanne og (P -> R) er usann. for at (P -> R) skal være usann, det vil si at R må være usann og P sann. for å gjøre (Q -> R) sann må da Q være usann. Med Q usann og P sann blir (P -> Q) usann. Som gir oss en motsigelse mot (P -> Q) og (Q -> R) er sanne og (P -> R) er usann, som da beviser påstanden.
+
+9.12 g) F er oppfyllbar hvis det finnes en valuasjon som som gjør at F er sann. Og hvis F er sann så er -F usann og vice versa som vil si at enten F eller ikke F er oppfyllbar.
+h) Anta at F bare er en utsagnsvariabel. Da er den sann for en og usann for en annen valuasjon. Det vil si at det finnes en F som er verken kontradiktorisk eller gyldig. (Men hvis det er snakk om (Fv-F) som da er en tautologi så er den gylig).
+

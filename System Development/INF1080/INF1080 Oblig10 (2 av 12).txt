@@ -1,0 +1,12 @@
+19.9 a) ExB(x)?F(x).
+b) AxB(x)->F(x).
+c) -F(x)->B(x).
+d) ExF(y)K(x, y).
+e) ExAyF(y)K(,x y)
+f) ExAyB(y)?-F(y)K(x, y).
+g) AxFyK(x, y).
+h) AxEyFzK(x, (y, z)).
+i) Det finnes ikke noen som er Biolog eller filosof
+j) Det finnes en x slik at a kjenner x og x ikke er en biolog.
+k) alle x og alle y, så x kjenner y hvis x og y er en filosof.
+l) Alle filosofer kjenner noen

@@ -1,0 +1,26 @@
+Godkjent
+•Obligen er godkjent, men du bør strebe etter å komme i mål tidligere i tiden framover for å skrive bedre rapporter :) Under er litt kommentarer til koden. Lykke til på eksamen!
+
+Steg A (findMax)
+•Flott du lar trådene dele opp dataen selv, og lagrer funnet i en array på posisjonen til trådens id. Og etterpå går gjennom denne arrayen for å finne max, perfekt!
+
+Steg B (shift-mask count)
+•Samme her som forrige steg, godt å se du lar trådene lage de "globale" variable samtidig hver for seg, siden de kommer fram til samme resultat, nydelig.
+•Opptellingen i //B området er også akkurat som det skal være.
+
+Steg C (count-positioning)
+•Som det står nå er ikke denne delen parallellisert. Men siden du beskriver hvordan du har løst det, og resten er parallellisert er det ok. Under er et forslag til parallellisering av denne delen;
+•Lag allCount[k+1][] stor, og bruke den siste posisjonen allCount[k][] for å lagre summen av kolonnene over. Blir noe av det samme som int[] sumCount nevnt i oppgaveteksten.
+•På denne måten kan du dele opp alle kolonnene på antall tråder - og parallellt regne ut hvor mange det er totalt av de forskjellige sifferverdiene ned i allCount[k][column].
+•Samtidig som du gjør dette kan du også snu om på allCount[i<id][column] til å være riktig med posisjon ift. de forrige trådenes funn i samme column. 
+•Når alle trådene er ferdig med dette (og sync'et) kan de trådsikkert kjapt lage en ny int[] count ved å kontinuerlig summere opp allCount[k][j<column], legge til summen av sin egen allCount[id][column] som skal være denne trådens posisjon ift. dette sifferet - og lagre i sin count[column].
+•Steg D Når produksjonen av nye count er ferdig er det bare å begynne å kopiere over (ingen sync behov da), og vente på enten neste runde eller avslutte.
+
+Steg D (copy from count)
+•Flott bruk av localCount for din del med venstre, hoyre som begrensing :)
+
+Annet
+•Du har en veldig oversiktlig kode, det er lett å gå gjennom. Eneste jeg vil kommentere er at det var en del newlines etter hverandre her og der som jeg måtte fjerne for lettere analyse av koden :)
+
+Rapport
+•Marginal rapport, men du har med det mest essensielle og lar det gå grunnet alt som må være med er med.

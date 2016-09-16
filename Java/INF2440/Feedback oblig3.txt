@@ -1,0 +1,82 @@
+Gratulerer!
+
+Obligen er godkjent. Se under for detaljer.
+
+Sekvensiell
+
+seqMethod()
+•Flott du finner minX og maxX i en og samme løkke :)
+•Også bra du finner alle over/under punktene i samme løkke.
+•Du kunne gjerne delt den mer opp i mindre deler, da metoden seqMethod() har ganske mange linjer kode. Kanskje en findMInMax() og en getStartPoints(IntList left, IntList right) eller noe lignende.
+
+seqRec(int p1, intp2, intp3, IntList am)
+•Her er også en flott metode som ordner alle punktene i nye lister - foruten p1, p2, p3, kjempebra!
+•Samtidig som ved seqMethod() kunne du godt delt delene enda mindre, for eksempel i = calcDistance(int p, int a, int b, int c) eller noe i den duren som finner ut avstanden fra linja for et punkt i.
+•Avslutningsvis nydelig håndtering av d == 0 ved å sjekke at inside(p1, p3, i), strålende.
+
+Parallell
+
+utforPar()
+•Siden du her må gjør akkurat det samme for å finne minX/maxX er det enda større grunn for å lage en egen metode som foreksempel kan returnere new int[] {min, max}eller noe i den duren. Og samme med punktmengdene IntList right, left.
+•Samtidig er ikke algoritmen din helt parallell - da du starter først tråden med right, før du joiner. Som effektivt betyr at du venter til den tråden er ferdig før du fortsetter, og lager tråden som går left. Bedre algoritme er:
+
+myLeftSet.add(firstLeftPoint);
+myRightSet.add(myFirstRightPoint);
+thread t1 = new Thread(..);
+t1.start();
+thread t2 ) new Thread(..);
+t2.start();
+try {t1.join; t2.join;} catch(..)
+allPoints = myLeftSet;
+myLeftSet.addAll(myRightSet);
+//  der addAll legger til alle elementene fra lista myRightSet
+
+
+parRec()
+•Her ser jeg heldigvis at du har fått startet begge trådene før du kaller join på den ene, og ordner riktig rekkefølge på punktene :)
+•Ellers mye likt til seqRec() som du kunne løst med flere metoder som nevnt tidligere. Du kunne også brukt samme sekvensielle rekursive metode - der den sekvensielle sender med samme IntListen (hovedlista) for å lagre i heile veien, mens trådene sender med nye IntLister.
+
+Annet
+•Flotte metode- og variabelnavn gjør det lett å følge koden din. Litt flere metoder på den like koden er å foretrekke.
+
+Rapport og tider
+•Du har en grei rapport, skulle gjerne hatt litt mer forklaring på den parallelle versjonen din. Hvorfor har du benyttet deg av int lvl, og hvordan fant du frem til nivået du har som grense?
+•Fine kommentarer angående speedup. Antakelig får du ikke speedup grunnet du ikke starter venstre og høyre tråd-tree samtidig - og initialisering av så store lister krever tid, som ved redusering av n til am.size() får du ekstremt mye bedre tider (jeg får ikke til den siste grunnet heap space).
+
+Etter reduksjonen av IntList left = new IntList(am.size()); // framfor new IntList(n);
+
+ n: 100 cores: 4
+Sekvensiell tid: 0.144541
+Parallel tid: 6.794707
+Speedup: 0.021272587618568397
+
+ n: 1000 cores: 4
+Sekvensiell tid: 0.846719
+Parallel tid: 10.689187
+Speedup: 0.07921266603344108
+
+ n: 10000 cores: 4
+Sekvensiell tid: 2.77493
+Parallel tid: 4.567151
+Speedup: 0.6075844656767424
+
+ n: 100000 cores: 4
+Sekvensiell tid: 4.089482
+Parallel tid: 15.170811
+Speedup: 0.26956251712581486
+
+ n: 1000000 cores: 4
+Sekvensiell tid: 55.725232
+Parallel tid: 123.18522
+Speedup: 0.4523694644536089
+
+ n: 10000000 cores: 4
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+        at IntList.<init>(IntList.java:9)
+        at Oblig3.seqMethod(Oblig3.java:111)
+        at Oblig3.utforSeq(Oblig3.java:69)
+        at Oblig3.main(Oblig3.java:49)
+
+
+IntList
+•Du får problemer fordi det stadig dannes veldig store lister. En utvidet IntList der du heller utvider lista ved behov hindrer minneoverbruk - men får større kjøretid (grunnet kopiering over til den nye lista).

@@ -1,0 +1,22 @@
+Hei =)
+
+ CharGenerator, Token og Log 
+
+(1) Ingenting å klage på =)
+
+ Scanner-klassen 
+
+(2) Alle testfilene kjørte fint, unntagen primes.alboc. Eneste som ødela for den, var at du hadde && i while-betingelsen for kommentarer over flere linjer. Da hopper man ut av while løkken ved første forekomst av * i kildekoden, fremfor første forekomst av */. Her har vi tilfellet som ødela.
+
+/* Does a 'printf("%*d", w, v)'. */
+
+
+Endrer vi testen til
+
+while ( (CharGenerator.curC!='*') || (CharGenerator.nextC!='/') ) {
+
+
+fungerer det greit :D
+
+Lykke til med del1 =)
+

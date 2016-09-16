@@ -1,0 +1,41 @@
+﻿12.1
+b) x, 2x, 2x+1
+ 
+1   2   3   4  5  6  7 8  9  10  ......
+
+c) x, 3x, 3x+1,
+  
+1 3 4 9 10 12 13 18 19 30....
+
+12.2
+b) 1 er det minste elementet i x og hvis x er et element i S så er x+3 et element i S.
+c) 1 er det minste elementet i x og hvis x er et element i S så er 2x et element i S.
+
+
+
+
+
+12.7 a) 2, 3, 6 og 7 er med i B.
+c) 1. s(<< ⊥, ⊥>, ⊥>) = s(⊥) + s(<⊥, ⊥>) = 1 + s(⊥) + s(⊥) = 1 + 1 + 1 = 3
+2. s(<<⊥, ⊥>, <⊥, ⊥>> = s(<⊥, ⊥>) + s(<⊥, ⊥>) = (1 + 1) + (1 + 1) = 2 + 2 = 4
+3. s(<⊥, <<⊥, ⊥>, ⊥>>) = s(⊥) + s(<⊥, ⊥>, ⊥) = 1 + s(⊥, ⊥) + 1 = 2 + 1 + 1 = 4.
+
+
+
+13.7
+a) f(n)= 7n.
+De åtte første elementene blir 0, 7, 14, 21, 28, 35, 42, 49, 56.
+f(8) = f(7) + 7
+     = (f(6) + 7) + 7
+     = ((f(5) + 7) + 7) + 7
+     = (((f(4) + 7) + 7) + 7) + 7
+     = ((((f(3) + 7) + 7) + 7) + 7) + 7
+     = (((((f(2) + 7) + 7) + 7) + 7) + 7) + 7
+     = ((((((f(1) + 7) + 7) + 7) + 7) + 7) + 7) + 7
+     = (((((((f(0) + 7) + 7) + 7) + 7) + 7) + 7) + 7) + 7
+     = (((((((0 + 7) + 7) + 7) + 7) + 7) + 7) + 7) + 7
+     = 56.
+
+13.8
+c) den minte mengden er da basismengden {Λ} og hvis x er med så er xab med.
+e) f(Λ) = den tomme strengen. f(rAxB) = f(rBxA) hvor A og B er to forskjellige elementer i A*.

@@ -1,0 +1,14 @@
+﻿6.1 
+a) <c,c> mangler fra S1 for og gjøre den refleksiv.
+b) S2 mangler <b, a> til <a, b>. for å være symmetrisk.
+c) S3 mangler <a, c>,
+d) <a, b> eller <b, a> må fjernes.
+e) <a, a> må ut for og gjøre S5 irrefleksiv.
+
+
+7.1
+a) f og h er  injektive.
+b) f og i er surjektive.
+c) A er verdiomerådet og bildemengden er alle y'ene som vil si {1, 2, 4}.
+e) <R, y> er allerede i funksjonen så uten <R, R> hadde dette vært en funkjson fra C til C.
+f) {<1, 2>, <2, 3>, <3, 4>} er ikke en funksjon fra A til A siden <4, y> er ikke med.

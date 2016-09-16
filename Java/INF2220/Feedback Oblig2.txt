@@ -1,0 +1,12 @@
+
+Method: findEarliest = O((T * E * findEarliestRec))
+
+Dette er ikke helt riktig siden du kan ikke bruke findEarliestRec slik. Om findEarliestRec looper gjennom alle nodene eller edges så er dette noe å tenke på, men ellers er dette en konstant som blir inkapslet i T eller E.
+
+Du har kjempefin kode, men du segmenterer litt dårlig.
+
+Ellers er alt i tipp topp stand og gir forventede data.
+
+Bra jobbet.
+
+Godkjent.

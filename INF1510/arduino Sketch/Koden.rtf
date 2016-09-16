@@ -1,0 +1,1232 @@
+{\rtf1\ansi\deff0\deftab480
+
+{\fonttbl
+{\f000 Courier New;}
+{\f001 Courier New;}
+}
+
+{\colortbl
+\red000\green000\blue000;
+\red255\green255\blue255;
+\red000\green000\blue000;
+\red255\green255\blue255;
+}
+
+\f0\fs20\cb3\cf2 \highlight1\cf0 #include <Andee.h>\par
+#include <UTFT.h>\par
+#include <UTouch.h>\par
+#include <SPI.h>\par
+#include <RFID.h>\par
+#include <avr/pgmspace.h>\par
+#include <stdlib.h>\par
+#include <stdio.h>\par
+#include <string.h>\par
+\par
+\par
+#define SS_PIN 48\par
+#define RST_PIN 49\par
+\par
+//Defines the sccreen's max x & y\par
+#define XMAX 319 \par
+#define YMAX 239\par
+\par
+// Initialize display\par
+// ------------------\par
+// Set the pins to the correct ones for your development board\par
+// -----------------------------------------------------------\par
+// Standard Arduino Uno/2009 Shield            : <display model>,19,18,17,16\par
+// Standard Arduino Mega/Due shield            : <display model>,38,39,40,41\par
+// CTE TFT LCD/SD Shield for Arduino Due       : <display model>,25,26,27,28\par
+// Teensy 3.x TFT Test Board                   : <display model>,23,22, 3, 4\par
+// ElecHouse TFT LCD/SD Shield for Arduino Due : <display model>,22,23,31,33\par
+//\par
+// Remember to change the model parameter to suit your display module!\par
+UTFT    myGLCD(SSD1289,38,39,40,41);\par
+\par
+\par
+//Sets the icon images\par
+extern unsigned int settings[0x400];\par
+extern unsigned int addIcon[0x400];\par
+extern unsigned int closeIcon[0x400];\par
+extern unsigned int deleteIcon[0x400];\par
+extern unsigned int lock[0x400];\par
+extern unsigned int notes[0x400];\par
+extern unsigned int timerIcon[0x400];\par
+\par
+//Set's the RFID's pins\par
+RFID rfid(48, 49);\par
+\par
+\par
+//Info for all cards\par
+typedef struct cards\{\par
+  int serNum0;\par
+  int serNum1;\par
+  int serNum2;\par
+  int serNum3;\par
+  int serNum4;\par
+  int admin;\par
+  int deleteUser;\par
+  int timer;\par
+  char name[20];\par
+  \par
+\} card;\par
+\par
+\par
+// Initialize touchscreen\par
+// ----------------------\par
+// Set the pins to the correct ones for your development board\par
+// -----------------------------------------------------------\par
+// Standard Arduino Uno/2009 Shield            : 15,10,14, 9, 8\par
+// Standard Arduino Mega/Due shield            :  6, 5, 4, 3, 2\par
+// CTE TFT LCD/SD Shield for Arduino Due       :  6, 5, 4, 3, 2\par
+// Teensy 3.x TFT Test Board                   : 26,31,27,28,29\par
+// ElecHouse TFT LCD/SD Shield for Arduino Due : 25,26,27,29,30\par
+//\par
+UTouch  myTouch( 6, 5, 4, 3, 2);\par
+\par
+// Declare which fonts we will be using\par
+extern uint8_t BigFont[];\par
+\par
+int x, y;\par
+char stCurrent[20]="";\par
+int stCurrentLen=0;\par
+char stLast[20]="";\par
+int n=1;\par
+\par
+AndeeHelper button;\par
+AndeeHelper slider;\par
+AndeeHelper displayBox;\par
+\par
+int setTimer=0;\par
+\par
+int nC, nD, nS =0;\par
+\par
+card Cards[20];\par
+\par
+\par
+//lager et testkort\par
+void testCard()\{\par
+  Cards[0].serNum0=187;\par
+  Cards[0].serNum1=232;\par
+  Cards[0].serNum2=93;\par
+  Cards[0].serNum3=116;\par
+  Cards[0].serNum4=122;\par
+  strcpy(Cards[0].name, "Test");\par
+  Cards[0].timer=5;\par
+  Cards[0].admin=1;\par
+\}\par
+\par
+\par
+/*****************\par
+***Draw buttons***\par
+*****************/\par
+\par
+//Draws delete buttons\par
+void drawDeleteButton()\{\par
+  myGLCD.clrScr();\par
+  //Buttons\par
+  myGLCD.setColor(0,0,255);\par
+  myGLCD.fillRect(XMAX-100, YMAX-45, XMAX-5, YMAX-5);\par
+  myGLCD.fillRect(XMAX-210, YMAX-45, XMAX-110, YMAX-5);\par
+  myGLCD.drawBitmap(287, 5, 32, 32, closeIcon);\par
+  \par
+  //Arrow buttons\par
+  myGLCD.setColor(155, 155, 155);\par
+  myGLCD.fillRoundRect(40, 100, 80, 140);\par
+  myGLCD.fillRoundRect(245, 100, 285, 140);\par
+  \par
+  //Name textbox\par
+  myGLCD.setColor(255, 255, 255);\par
+  myGLCD.fillRect(85, 100, 240, 140);\par
+  \par
+  //Print buttons\par
+  myGLCD.setBackColor(0,0,255);\par
+  myGLCD.setColor(255, 255, 255);\par
+  myGLCD.print("Done", XMAX-95, YMAX-35);\par
+  myGLCD.print("Delete", XMAX-205, YMAX-35);\par
+  \par
+  myGLCD.setBackColor(155,155,155);\par
+  myGLCD.print("<-", 45, 110);\par
+  myGLCD.print("->", 250, 110);\par
+  \par
+  \par
+  \par
+  \par
+\}\par
+\par
+//Draws Note buttons\par
+void drawNoteButton()\{\par
+  \par
+\}\par
+\par
+\par
+//Draws the keyboard when needed\par
+void drawKeyboard()\{\par
+  //myGLCD.clrScr();\par
+  int y1=120;\par
+  int y2=153;\par
+  int y3=186;\par
+  int x1=30;\par
+  int x2=58;\par
+  int x3=86;\par
+  int x4=114;\par
+  int x5=142;\par
+  int x6=170;\par
+  int x7=198;\par
+  int x8=226;\par
+  int x9=254;\par
+  int x10=282;\par
+  myGLCD.drawBitmap(287, 5, 32, 32, closeIcon);\par
+/*  \par
+  myGLCD.setColor(255, 255, 255);\par
+  \par
+  myGLCD.fillRect(25, 45, 240, 70);\par
+  myGLCD.setColor(155, 155, 155);\par
+  myGLCD.fillRoundRect(255, 45, 285, 70);\par
+  */\par
+  //Buttons\par
+  myGLCD.setColor(0,100,255);\par
+  \par
+  myGLCD.fillRoundRect(5, y1, x1, 150);\par
+  myGLCD.fillRoundRect(x1+3, y1, x2, 150);\par
+  myGLCD.fillRoundRect(x2+3, y1, x3, 150);\par
+  myGLCD.fillRoundRect(x3+3, y1, x4, 150);\par
+  myGLCD.fillRoundRect(x4+3, y1, x5, 150);\par
+  myGLCD.fillRoundRect(x5+3, y1, x6, 150);\par
+  myGLCD.fillRoundRect(x6+3, y1, x7, 150);\par
+  myGLCD.fillRoundRect(x7+3, y1, x8, 150);\par
+  myGLCD.fillRoundRect(x8+3, y1, x9, 150);\par
+  myGLCD.fillRoundRect(x9+3, y1, x10, 150);\par
+  myGLCD.fillRoundRect(x10+3, y1, 310, 150);\par
+  \par
+  \par
+  myGLCD.fillRoundRect(5+3, y2, x1+3, 183);\par
+  myGLCD.fillRoundRect(x1+6, y2, x2+3, 183);\par
+  myGLCD.fillRoundRect(x2+6, y2, x3+3, 183);\par
+  myGLCD.fillRoundRect(x3+6, y2, x4+3, 183);\par
+  myGLCD.fillRoundRect(x4+6, y2, x5+3, 183);\par
+  myGLCD.fillRoundRect(x5+6, y2, x6+3, 183);\par
+  myGLCD.fillRoundRect(x6+6, y2, x7+3, 183);\par
+  myGLCD.fillRoundRect(x7+6, y2, x8+3, 183);\par
+  myGLCD.fillRoundRect(x8+6, y2, x9+3, 183);\par
+  myGLCD.fillRoundRect(x9+6, y2, x10+3, 183);\par
+  myGLCD.fillRoundRect(x10+6, y2, 315+3, 183);\par
+  \par
+  myGLCD.fillRoundRect(5, y3, x1, 216);\par
+  myGLCD.fillRoundRect(x1+3, y3, x2, 216);\par
+  myGLCD.fillRoundRect(x2+3, y3, x3, 216);\par
+  myGLCD.fillRoundRect(x3+3, y3, x4, 216);\par
+  myGLCD.fillRoundRect(x4+3, y3, x5, 216);\par
+  myGLCD.fillRoundRect(x5+3, y3, x6, 216);\par
+  myGLCD.fillRoundRect(x6+3, y3, x7, 216);\par
+  myGLCD.fillRoundRect(x7+3, y3, x8, 216);\par
+  myGLCD.fillRoundRect(x8+3, y3, x9, 216);\par
+  //myGLCD.fillRoundRect(x9+3, y3, x10, 216);\par
+  //myGLCD.fillRoundRect(x10+3, y3, 310, 216);\par
+  //End buttons\par
+  \par
+  //Button letters\par
+  myGLCD.setBackColor(0,100,255);\par
+  myGLCD.setColor(255,255,255);\par
+  myGLCD.print("q", 8, y1+5);\par
+  myGLCD.print("w", x1+3, y1+5);\par
+  myGLCD.print("e", x2+3, y1+5);\par
+  myGLCD.print("r", x3+3, y1+5);\par
+  myGLCD.print("t", x4+3, y1+5);\par
+  myGLCD.print("y", x5+3, y1+5);\par
+  myGLCD.print("u", x6+3, y1+5);\par
+  myGLCD.print("i", x7+3, y1+5);\par
+  myGLCD.print("o", x8+3, y1+5);\par
+  myGLCD.print("p", x9+3, y1+5);\par
+  myGLCD.print("", x10+3, y1+5);\par
+  \par
+  myGLCD.print("a", 11, y2+5);\par
+  myGLCD.print("s", x1+6, y2+5);\par
+  myGLCD.print("d", x2+6, y2+5);\par
+  myGLCD.print("f", x3+6, y2+5);\par
+  myGLCD.print("g", x4+6, y2+5);\par
+  myGLCD.print("h", x5+6, y2+5);\par
+  myGLCD.print("j", x6+6, y2+5);\par
+  myGLCD.print("k", x7+6, y2+5);\par
+  myGLCD.print("l", x8+6, y2+5);\par
+  myGLCD.print("<-", x9+6, y2+5);\par
+  myGLCD.print("", x10+6, y2+5);\par
+  \par
+  myGLCD.print("z", 8, y3+5);\par
+  myGLCD.print("x", x1+3, y3+5);\par
+  myGLCD.print("c", x2+3, y3+5);\par
+  myGLCD.print("v", x3+3, y3+5);\par
+  myGLCD.print("b", x4+3, y3+5);\par
+  myGLCD.print("n", x5+3, y3+5);\par
+  myGLCD.print("m", x6+3, y3+5);\par
+  myGLCD.print("-", x7+3, y3+5);\par
+  myGLCD.print("", x8+3, y3+5);\par
+  myGLCD.print("", x9+3, y3+5);\par
+  myGLCD.print("", x10+3, y3+5);\par
+  //end button letters\par
+\}\par
+\par
+//Draws homescreen\par
+void drawButtons()\{\par
+  myGLCD.clrScr();\par
+  Serial.println("Draw buttons");\par
+  //myGLCD.setColor(0, 0, 0);\par
+  //myGLCD.fillRect(0, 0, 319, 239);\par
+  myGLCD.drawBitmap(100, 99, 64, 64, lock);\par
+  myGLCD.drawBitmap(174, 99, 64, 64, settings);\par
+  //myGLCD.drawBitmap(287, 5, 32, 32, closeIcon);\par
+  myGLCD.setColor(255, 0, 0);\par
+\}\par
+\par
+//Draws the buttons for timer screen\par
+void drawTimerButtons()\par
+\{\par
+  myGLCD.clrScr();\par
+  myGLCD.drawBitmap(287, 5, 32, 32, closeIcon);\par
+  \par
+  myGLCD.setBackColor(0,0,0);\par
+  myGLCD.setColor(255,255,255);\par
+  \par
+  myGLCD.fillRect(40, 100, 80, 130);\par
+  myGLCD.fillRect(90, 100, 130, 130);\par
+  myGLCD.fillRect(140, 100, 180, 130);\par
+  \par
+  myGLCD.print("Current: ", 5, 15);\par
+  \par
+  myGLCD.setColor(0,0,255);\par
+  myGLCD.fillRoundRect(XMAX-45, YMAX-45, XMAX-5, YMAX-5);\par
+  \par
+  myGLCD.setBackColor(0,0,255);\par
+  myGLCD.setColor(255,255,255);\par
+  myGLCD.print("OK", XMAX-40, YMAX-40);\par
+  \par
+  myGLCD.setColor(0,0,0);\par
+  myGLCD.setBackColor(255, 255, 255);\par
+  \par
+  /*\par
+  myGLCD.print("1", 50, 105);\par
+  myGLCD.print("2", 100, 105);\par
+  myGLCD.print("3", 150, 105);\par
+  */\par
+  \par
+  myGLCD.setColor(155, 155, 155);\par
+  myGLCD.fillRect(40, 80, 80, 100);\par
+  myGLCD.fillRect(90, 80, 130, 100);\par
+  myGLCD.fillRect(140, 80, 180, 100);\par
+  \par
+  myGLCD.fillRect(40, 130, 80, 150);\par
+  myGLCD.fillRect(90, 130, 130, 150);\par
+  myGLCD.fillRect(140, 130, 180, 150);\par
+  \par
+  myGLCD.setBackColor(155,155,155);\par
+  myGLCD.setColor(0,0,0);\par
+  \par
+  myGLCD.print("+", 50, 80);\par
+  myGLCD.print("+", 100, 80);\par
+  myGLCD.print("+", 150, 80);\par
+  \par
+  myGLCD.print("-", 50, 130);\par
+  myGLCD.print("-", 100, 130);\par
+  myGLCD.print("-", 150, 130);\par
+  \par
+  \par
+  \par
+ /* |----------|\par
+ *  |    +     |\par
+ *  |----------|\par
+ * for opp, med - for ned.\par
+ */\par
+\}\par
+\par
+\par
+//Draws the buttons for Settings\par
+void drawSettingButton()\{\par
+  \par
+  Serial.println("Draw settings button");\par
+  myGLCD.clrScr();\par
+  myGLCD.drawBitmap(15, 90, 64, 64, timerIcon);\par
+  myGLCD.drawBitmap((15+64+10), 90, 64, 64, addIcon);\par
+  myGLCD.drawBitmap(15+(64+10)*2, 90, 64, 64, deleteIcon);\par
+  //myGLCD.drawBitmap(15+(64+10)*3, 90, 64, 64, notes);\par
+  myGLCD.drawBitmap(287, 5, 32, 32, closeIcon);\par
+  \par
+\}\par
+\par
+\par
+/*******************\par
+***Work functions***\par
+*******************/\par
+//updates the numbers in timer\par
+int updateTimer(int c, int d, int s)\{\par
+  \par
+  int tot;\par
+  \par
+  if(nC==9)\{\par
+    if(c==1)\{\par
+      nC=-1;\par
+    \}\par
+  \}\par
+  if(nC==0)\{\par
+    if(c==-1)\{\par
+      nC=10;\par
+    \}\par
+  \}\par
+  if(nD==9)\{\par
+    if(d==1)\{\par
+      nD=-1;\par
+    \}\par
+  \}\par
+  if(nD==0)\{\par
+    if(d==-1)\{\par
+      nD=10;\par
+    \}\par
+  \}\par
+  if(nS==9)\{\par
+    if(s==1)\{\par
+      nS=-1;\par
+    \}\par
+  \}\par
+  if(nS==0)\{\par
+    if(s==-1)\{\par
+      nS=10;\par
+    \}\par
+  \}\par
+  \par
+  nC+=c;\par
+  nD+=d;\par
+  nS+=s;\par
+  \par
+  tot=(nC*100)+(nD*10)+nS;\par
+  \par
+  myGLCD.setColor(255, 255, 255);\par
+  myGLCD.fillRect(40, 100, 80, 130);\par
+  myGLCD.fillRect(90, 100, 130, 130);\par
+  myGLCD.fillRect(140, 100, 180, 130); \par
+  \par
+  myGLCD.setBackColor(255,255,255);\par
+  myGLCD.setColor(0,0,0);\par
+  \par
+  myGLCD.printNumI(nC, 50, 105);\par
+  myGLCD.printNumI(nD, 100, 105);\par
+  myGLCD.printNumI(nS, 150, 105);\par
+  \par
+  Serial.println(tot);\par
+  \par
+  return tot;\par
+\}\par
+\par
+//Funksjonen til timer\par
+void timerState(int pos)\{\par
+  drawTimerButtons();\par
+  myGLCD.setColor(255, 255, 255);\par
+  myGLCD.setBackColor(0,0,0);\par
+  myGLCD.printNumI(Cards[pos].timer, 235, 15);\par
+  int tmpTimer=0;\par
+  while(true)\{\par
+    if(myTouch.dataAvailable())\par
+    \{\par
+      myTouch.read();\par
+      x=myTouch.getX();\par
+      y=myTouch.getY();\par
+      \par
+      if(y>=80 && y<=100)\{\par
+        if(x>=40 && x<=80)\{\par
+          tmpTimer=updateTimer(1,0,0);\par
+          delay(500);\par
+        \}else if(x>=90 && x<=130)\{\par
+          tmpTimer=updateTimer(0,1,0);\par
+          //tmpTimer+=10;\par
+          delay(500);\par
+        \}else if(x>=140 && x<=180)\{\par
+          tmpTimer=updateTimer(0,0,1);\par
+          //tmpTimer+=1;\par
+          delay(500);\par
+        \}\par
+      \par
+      \}else if(y>=130 && y<=150)\{\par
+        if(x>=40 && x<=80)\{\par
+          tmpTimer=updateTimer(-1,0,0);\par
+          //tmpTimer-=100;\par
+          delay(500);\par
+        \}else if(x>=90 && x<=130)\{\par
+          tmpTimer=updateTimer(0,-1,0);\par
+          //tmpTimer-=10;\par
+          delay(500);\par
+        \}else if(x>=140 && x<=180)\{\par
+          tmpTimer=updateTimer(0,0,-1);\par
+          //tmpTimer-=1;\par
+          delay(500);\par
+        \}\par
+      \}else if(y>=5 && y<=39)\{\par
+        if(x>=287 && x<=287+34)\{\par
+          myGLCD.clrScr();\par
+          drawSettingButton();\par
+          break;\par
+        \}\par
+      \}else if(y>=YMAX-45 && y<=YMAX-5)\{\par
+        if(x>XMAX-45 && XMAX-5)\{\par
+          if(tmpTimer>0)\{\par
+            Cards[pos].timer=tmpTimer;\par
+            nC=0; \par
+            nD=0;\par
+            nS=0;\par
+            Serial.print(tmpTimer);\par
+            myGLCD.clrScr();\par
+            drawSettingButton();\par
+            break;\par
+          \}\par
+        \}\par
+      \}else if(y>=5 && y<=37)\{\par
+        if(x>=287 && x<=287+32)\{\par
+          break;\par
+        \}\par
+      \}\par
+    \}\par
+  \}\par
+\}\par
+\par
+//Reads card for timer\par
+void timerReadCard()\{\par
+  int j;\par
+  myGLCD.clrScr();\par
+  myGLCD.setColor(255,255,255);\par
+  myGLCD.setBackColor(0,0,0);\par
+  myGLCD.print("Read", 25, YMAX/2);\par
+  int time, start = millis();\par
+  while(time-start<=10000)\{\par
+    if(rfid.isCard())\{\par
+      if(rfid.readCardSerial())\{\par
+        int k = checkCard(rfid.serNum[0], rfid.serNum[1], rfid.serNum[2], rfid.serNum[3], rfid.serNum[4]);\par
+        if(k==-1)\{\par
+          delay(1000);\par
+          drawSettingButton();\par
+          break;\par
+        \}else if(k>=0)\{\par
+          timerState(k);\par
+          break;\par
+        \}\par
+      \}\par
+    \}\par
+    time=millis();\par
+  \}\par
+  myGLCD.clrScr();\par
+  drawSettingButton();\par
+\}\par
+\par
+//Neste eller forrige kort\par
+void updateDelete(int i)\{\par
+  Serial.println("In update delete");\par
+  myGLCD.setColor(255, 255, 255);\par
+  myGLCD.fillRect(85, 100, 240, 140);\par
+  myGLCD.setColor(255,255,255);\par
+  //myGLCD.fillRect(x, y, x+140, y+40);\par
+  myGLCD.setColor(0,0,0);\par
+  myGLCD.setBackColor(255,255,255);\par
+  myGLCD.print(Cards[i].name, 90, 110);\par
+\}\par
+\par
+//Delete's position and move all one down\par
+void deletePos(int pos)\{\par
+  Serial.println("in delete posistion");\par
+  n--;\par
+  while(pos<n)\{\par
+    Cards[pos].serNum0=Cards[pos+1].serNum0;\par
+    Cards[pos].serNum1=Cards[pos+1].serNum1;\par
+    Cards[pos].serNum2=Cards[pos+1].serNum2;\par
+    Cards[pos].serNum3=Cards[pos+1].serNum3;\par
+    Cards[pos].serNum4=Cards[pos+1].serNum4;\par
+    strcpy(Cards[pos].name, Cards[pos+1].name);\par
+    Cards[pos].admin=Cards[pos+1].admin;\par
+    pos++;\par
+  \}\par
+    Cards[n].serNum0=NULL;\par
+    Cards[n].serNum1=NULL;\par
+    Cards[n].serNum0=NULL;\par
+    Cards[n].serNum3=NULL;\par
+    Cards[n].serNum4=NULL;\par
+    Cards[n].name[0]='\\0';\par
+    Cards[n].admin=NULL;\par
+    updateDelete(0);\par
+\}\par
+\par
+//Main for delete funksjon\par
+void deleteState()\{\par
+  Serial.println("in delete state");\par
+ drawDeleteButton();\par
+ \par
+ int i, j=0;\par
+ \par
+ updateDelete(i);\par
+ Serial.println("After update");\par
+ \par
+ \par
+ while(true)\{\par
+  if(myTouch.dataAvailable())\{\par
+   myTouch.read();\par
+   x=myTouch.getX();\par
+   y=myTouch.getY(); \par
+   if(y>=100 && y<=140)\{\par
+    if(x>=40 && x<=80)\{\par
+      Serial.println("back key pressed");\par
+      if(i==0)\{\par
+        i=n;\par
+      \}\par
+      i--;\par
+      updateDelete(i);\par
+      delay(500);\par
+    \}else if(x>=245 && x<=285)\{\par
+      Serial.println("next key pressed");\par
+      if(i==n-1)\{\par
+       i=-1; \par
+      \}\par
+      i++;\par
+      updateDelete(i);\par
+      delay(500);\par
+    \} \par
+   \}else if(y>=YMAX-45 && y<=YMAX-5)\{\par
+    if(x>=XMAX-210 && x<=XMAX-110)\{\par
+      Serial.println("Delete pressed");\par
+      deletePos(i);\par
+      i=0;\par
+      delay(500);\par
+      //Delete card. ikke sikker hvordan enda\par
+    \}else if(x>=XMAX-100 && x<=XMAX-5)\{\par
+      Serial.println("Done pressed");\par
+      myGLCD.clrScr();\par
+      drawSettingButton();\par
+      break;\par
+    \}\par
+   \}else if(y>=5 && y<=39)\{\par
+    if(x>=XMAX-39 && x<=XMAX-5)\{\par
+      Serial.println("X pressed");\par
+      myGLCD.clrScr();\par
+      drawSettingButton();\par
+      break;     \par
+    \} \par
+   \}\par
+  \}\par
+  \}\par
+ \par
+\}\par
+\par
+//\u229?pner d\u248?ren med timer fra telefon\par
+int openDoorTimer(int timer)\{\par
+  int time, start = millis();\par
+  myGLCD.setColor(0, 255, 0);\par
+  myGLCD.fillRect(0,0,XMAX, YMAX);\par
+  \par
+  myGLCD.setColor(255, 255, 255);\par
+  myGLCD.setBackColor(0, 255, 0);\par
+  myGLCD.print("Opened by phone", 10, YMAX/2);\par
+  displayBox.setData("Door Open");\par
+  displayBox.update();\par
+  while((time-start)<(timer*1000))\{\par
+    \par
+    time=millis();\par
+  \}\par
+  displayBox.setData("Door Closed");\par
+  myGLCD.clrScr();\par
+  drawButtons();\par
+\}\par
+\par
+//Opens up the door\par
+void openDoor(int pos)\par
+\{\par
+  \par
+  Serial.println("open door");\par
+  int time, start = millis();\par
+  myGLCD.setColor(0, 255, 0);\par
+  myGLCD.fillRect(0, 0, 319, 239);\par
+  \par
+  myGLCD.setColor(255, 255, 255);\par
+  myGLCD.setBackColor(0, 255, 0);\par
+  if(pos>=0)\{\par
+    myGLCD.print(Cards[pos].name, 25, YMAX/2);\par
+    delay(Cards[pos].timer*1000);\par
+  \}else\{\par
+    delay(15000);\par
+  \}\par
+  myGLCD.clrScr();\par
+  drawButtons();\par
+\}\par
+\par
+//Adds next letter to name in addCardTwo\par
+void updateStr(int val)\par
+\{\par
+  char alpha[]=\{'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '-'\};\par
+  \par
+  \par
+  myGLCD.setBackColor(255, 255, 255);\par
+  myGLCD.setColor(0, 0, 0);\par
+  \par
+  if(val==-1)\{\par
+    if(stCurrentLen>=0)\{\par
+      stCurrent[stCurrentLen-1]='\\0';\par
+      stCurrentLen--;\par
+      myGLCD.setColor(255, 255, 255);\par
+      myGLCD.fillRect(25, 45, 240, 70);\par
+      myGLCD.setColor(0,0,0);\par
+      myGLCD.print(stCurrent, 27, 50);\par
+    \}\par
+  \}else\{\par
+    if (stCurrentLen<20)\par
+    \{\par
+      stCurrent[stCurrentLen]=alpha[val];\par
+      stCurrent[stCurrentLen+1]='\\0';\par
+      stCurrentLen++;\par
+      myGLCD.print(stCurrent, 27, 50);\par
+    \}\par
+    else\par
+    \{\par
+      /*\par
+      myGLCD.setColor(255, 0, 0);\par
+      myGLCD.print("BUFFER FULL!", CENTER, 192);\par
+      delay(500);\par
+      myGLCD.print("            ", CENTER, 192);\par
+      delay(500);\par
+      myGLCD.print("BUFFER FULL!", CENTER, 192);\par
+      delay(500);\par
+      myGLCD.print("            ", CENTER, 192);\par
+      myGLCD.setColor(0, 255, 0);\par
+      */\par
+    \}\par
+  \}\par
+\}\par
+\par
+//Get position of card, return -1 if no card.\par
+int getPos()\{\par
+  myGLCD.clrScr();\par
+  myGLCD.print("Reading card", 25, YMAX/2);\par
+  int ser0, ser1, ser2, ser3, ser4, tmp0, tmp1, tmp2, tmp3, tmp4;\par
+  int i=0;\par
+  while(true)\{\par
+    if(rfid.isCard())\{\par
+      if(rfid.readCardSerial())\{\par
+        ser0 = rfid.serNum[0]; ser1 = rfid.serNum[1]; ser2 = rfid.serNum[2]; ser3 = rfid.serNum[3]; ser4 = rfid.serNum[4];\par
+        \par
+        while(i<n)\{\par
+          ser0 = Cards[i].serNum0; ser1 = Cards[i].serNum1; ser2 = Cards[i].serNum2; ser3 = Cards[i].serNum3; ser4 = Cards[i].serNum4;\par
+          if((ser0 == tmp0) && (ser1 == tmp1) && (ser2 == tmp2) && (ser3 == tmp3) && (ser4 == tmp4))\{\par
+            return i;\par
+          \}\par
+          i++;\par
+        \}\par
+        return -1;\par
+      \}\par
+    \}\par
+ \} \par
+\}\par
+\par
+//Edits the card read\par
+void addCard(int ser0, int ser1, int ser2, int ser3, int ser4)\{\par
+  \par
+  int tmpAdmin=0;\par
+  \par
+  myGLCD.clrScr();\par
+  \par
+  myGLCD.drawBitmap(287, 5, 32, 32, closeIcon);\par
+  \par
+  myGLCD.setBackColor(0,0,0);\par
+  \par
+  myGLCD.setColor(255,255,255);\par
+  \par
+  myGLCD.printNumI(ser0, 10, 60);\par
+  myGLCD.printNumI(ser1, 70, 60);\par
+  myGLCD.printNumI(ser2, 130, 60);\par
+  myGLCD.printNumI(ser3, 190, 60);\par
+  myGLCD.printNumI(ser4, 250, 60);\par
+  \par
+  myGLCD.print("Admin;", 10, 100);\par
+  \par
+  myGLCD.setColor(255, 255, 255);\par
+  myGLCD.fillRect(10, 120, 30, 140);\par
+  \par
+  myGLCD.setColor(0, 100, 255);\par
+  myGLCD.fillRoundRect(XMAX-90, YMAX-40, XMAX- 10, YMAX-10);\par
+  \par
+  myGLCD.setColor(255, 255, 255);\par
+  myGLCD.setBackColor(0, 100, 255);\par
+  myGLCD.print("OK", XMAX-70, YMAX-30);\par
+  \par
+  \par
+  while(true)\{\par
+    if (myTouch.dataAvailable())\{\par
+      myTouch.read();\par
+      x=myTouch.getX();\par
+      y=myTouch.getY();\par
+      if(y>=120 && y<=140)\{\par
+       if(x>=10 && x<=30)\{\par
+         if (tmpAdmin==0)\{\par
+           myGLCD.setColor(0,0,0);\par
+           myGLCD.fillRect(15, 125, 25, 135);\par
+           Serial.println("Admin on");\par
+           tmpAdmin=1;\par
+           delay(500);\par
+         \}else if(tmpAdmin==1)\{\par
+           myGLCD.setColor(255,255,255);\par
+           myGLCD.fillRect(15, 125, 25, 135);\par
+           tmpAdmin=0;\par
+           Serial.println("Admin off");\par
+           delay(500);\par
+         \}\par
+        \par
+       \} \par
+      \}else if(y>=5&&y<=37)\{\par
+       if(x>= 287 && x<=287+32)\{\par
+         break;\par
+       \}\par
+     \}\par
+      if(y>=YMAX-40 && y<=YMAX-10)\{\par
+        if(x>=XMAX-90 && x<=XMAX-10)\{\par
+          addCardTwo(ser0, ser1, ser2, ser3, ser4, tmpAdmin);\par
+          break;\par
+        \}\par
+      \}\par
+      x=NULL;\par
+      y=NULL;\par
+    \}\par
+  \}\par
+  \par
+\}\par
+\par
+//Add's name to the card\par
+void addCardTwo(int ser0, int ser1, int ser2, int ser3, int ser4, int tmpAdmin)\{\par
+  int y1=120;\par
+  int y2=153;\par
+  int y3=186;\par
+  int x1=30+3;\par
+  int x2=58+3;\par
+  int x3=86+3;\par
+  int x4=114+3;\par
+  int x5=142+3;\par
+  int x6=170+3;\par
+  int x7=198+3;\par
+  int x8=226+3;\par
+  int x9=254+3;\par
+  int x10=282+3;\par
+  \par
+  \par
+  myGLCD.clrScr();\par
+  myGLCD.setColor(255, 255, 255);\par
+  \par
+  myGLCD.fillRect(25, 45, 240, 70);\par
+  //myGLCD.print(stCurrent, 27, 50);\par
+  myGLCD.setColor(155, 155, 155);\par
+  myGLCD.fillRoundRect(255, 45, 305, 90);\par
+  myGLCD.setBackColor(155, 155, 155);\par
+  myGLCD.setColor(0,0,0);\par
+  myGLCD.print("OK", 265, 65);\par
+  \par
+  drawKeyboard();\par
+  char alpha[]=\{'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'\};\par
+  while(true)\{\par
+   if(myTouch.dataAvailable())\{\par
+     myTouch.read();\par
+     x=myTouch.getX();\par
+     y=myTouch.getY();\par
+     if(y>=45 && y<=90)\{\par
+       if(x>=255 && x<=305)\{\par
+         if(stCurrentLen)\{\par
+           Serial.println("Adding card");\par
+           Cards[n].serNum0 = ser0;\par
+           Cards[n].serNum1 = ser1;\par
+           Cards[n].serNum2 = ser2;\par
+           Cards[n].serNum3 = ser3;\par
+           Cards[n].serNum4 = ser4;\par
+           Cards[n].admin=tmpAdmin;\par
+           strcpy(Cards[n].name,stCurrent);\par
+           Cards[n].timer=15;\par
+           stCurrent[0]='\\0';\par
+           stCurrentLen=0;\par
+           n++;\par
+           //drawButtons();\par
+           break;\par
+         \}\par
+       \}\par
+     \}else if(y>=5&&y<=37)\{\par
+       if(x>= 287 && x<=287+32)\{\par
+         break;\par
+       \}\par
+     \}else if(y>=y1 && y<=150)\{\par
+       if(x>=5 && x<=x1 )\{\par
+         updateStr(0);\par
+         delay(500);\par
+       \}else if(x>=x1+3 && x<=x2)\{\par
+         updateStr(1);\par
+         delay(500);\par
+       \}else if(x>=x2+3 && x<=x3)\{\par
+         updateStr(2);\par
+         delay(500);\par
+       \}else if(x>=x3+3 && x<=x4)\{\par
+         updateStr(3);\par
+         delay(500);\par
+       \}else if(x>=x4+3 && x<=x5)\{\par
+         updateStr(4);\par
+         delay(500);\par
+       \}else if(x>=x5+3 && x<=x6)\{\par
+         updateStr(5);\par
+         delay(500);\par
+       \}else if(x>=x6+3 && x<=x7)\{\par
+         updateStr(6);\par
+         delay(500);\par
+       \}else if(x>=x7+3 && x<=x8)\{\par
+         updateStr(7);\par
+         delay(500);\par
+       \}else if(x>=x8+3 && x<=x9)\{\par
+         updateStr(8);\par
+         delay(500);\par
+       \}else if(x>=x9+3 && x<=x10)\{\par
+         updateStr(9);\par
+         delay(500);\par
+       \}\par
+     \}else if(y>=y2 && y<=183)\{\par
+       if(x>=8 && x<=x1+3 )\{\par
+         updateStr(10);\par
+         delay(500);\par
+       \}else if(x>=x1+6 && x<=x2+3)\{\par
+         updateStr(11);\par
+         delay(500);\par
+       \}else if(x>=x2+6 && x<=x3+3)\{\par
+         updateStr(12);\par
+         delay(500);\par
+       \}else if(x>=x3+6 && x<=x4+3)\{\par
+         updateStr(13);\par
+         delay(500);\par
+       \}else if(x>=x4+6 && x<=x5+3)\{\par
+         updateStr(14);\par
+         delay(500);\par
+       \}else if(x>=x5+6 && x<=x6+3)\{\par
+         updateStr(15);\par
+         delay(500);\par
+       \}else if(x>=x6+6 && x<=x7+3)\{\par
+         updateStr(16);\par
+         delay(500);\par
+       \}else if(x>=x7+6 && x<=x8+3)\{\par
+         updateStr(17);\par
+         delay(500);\par
+       \}else if(x>=x8+6 && x<=x9+3)\{\par
+         updateStr(18);\par
+         delay(500);\par
+       \}else if(x>=x9+6 && x<=x10+3)\{\par
+         //Backstep\par
+         updateStr(-1);\par
+         delay(500);\par
+       \}\par
+     \}else if(y>=y3 && y<=216)\{\par
+       if(x>=8 && x<=x1+3 )\{\par
+         updateStr(19);\par
+         delay(500);\par
+       \}else if(x>=x1+6 && x<=x2+3)\{\par
+         updateStr(20);\par
+         delay(500);\par
+       \}else if(x>=x2+6 && x<=x3+3)\{\par
+         updateStr(21);\par
+         delay(500);\par
+       \}else if(x>=x3+6 && x<=x4+3)\{\par
+         updateStr(22);\par
+         delay(500);\par
+       \}else if(x>=x4+6 && x<=x5+3)\{\par
+         updateStr(23);\par
+         delay(500);\par
+       \}else if(x>=x5+6 && x<=x6+3)\{\par
+         updateStr(24);\par
+         delay(500);\par
+       \}else if(x>=x6+6 && x<=x7+3)\{\par
+         updateStr(25);\par
+         delay(500);\par
+       \}else if(x>=x7+6 && x<=x8+3)\{\par
+         updateStr(26);\par
+         delay(500);\par
+       \}else if(x>=x8+6 && x<=x9+3)\{\par
+         updateStr(27);\par
+         delay(500);\par
+       \}else if(x>=x9+6 && x<=x10+3)\{\par
+         //Backstep\par
+         //updateStr();\par
+         delay(500);\par
+       \}\par
+     \}\par
+   \} \par
+  \}\par
+\}\par
+\par
+//Reads a ne card\par
+void readAddCard()\par
+\{\par
+  myGLCD.clrScr();\par
+  myGLCD.setColor(255,255,255);\par
+  myGLCD.setBackColor(0,0,0);\par
+  myGLCD.print("Read new card", 25, 100);\par
+  Serial.println("in addCard");\par
+  \par
+  if(n>=20)\par
+  \{\par
+    myGLCD.clrScr();\par
+    myGLCD.print("Max user's", 50, 219/2);\par
+  \}\par
+  \par
+  \par
+  int time, start = millis();\par
+  int i=0;\par
+  while(time-start<=15000 && i==0)\{\par
+   if(rfid.isCard())\{\par
+     if(rfid.readCardSerial())\{\par
+       int r=checkCard(rfid.serNum[0], rfid.serNum[1], rfid.serNum[2], rfid.serNum[3], rfid.serNum[4]);\par
+       if(r<0)\{\par
+         Serial.println("Added card");\par
+       \par
+         addCard(rfid.serNum[0], rfid.serNum[1], rfid.serNum[2], rfid.serNum[3], rfid.serNum[4]);\par
+       \par
+         /*\par
+         Cards[n-1].serNum0=rfid.serNum[0];\par
+         Cards[n-1].serNum1=rfid.serNum[1];\par
+         Cards[n-1].serNum2=rfid.serNum[2];\par
+         Cards[n-1].serNum3=rfid.serNum[3];\par
+         Cards[n-1].serNum4=rfid.serNum[4];\par
+       \par
+         Serial.println("");\par
+         Serial.print("Card: ");\par
+         Serial.print(n);\par
+         Serial.print(" - RFID: ");\par
+         Serial.print(rfid.serNum[0]);\par
+         Serial.print(" - Store: ");\par
+         Serial.print(Cards[n-1].serNum0);\par
+         */\par
+       \par
+         myGLCD.clrScr();\par
+         drawSettingButton();\par
+         i=1;\par
+         break;\par
+       \}else if (r>=0)\{\par
+         myGLCD.clrScr();\par
+         myGLCD.print("Card used", 25, YMAX/2);\par
+         i=i;\par
+         delay(1000);\par
+         myGLCD.clrScr();\par
+         drawSettingButton();\par
+         break;\par
+       \}\par
+     \}\par
+   \}\par
+   rfid.halt();\par
+   //Serial.println("Out of loop");\par
+   time=millis();\par
+ \} \par
+\}\par
+\par
+/*\par
+*Return 1 if admin, 0 if user, -1 if no cards\par
+*/\par
+int checkAdmin(int serNum0, int serNum1, int serNum2, int serNum3, int serNum4)\par
+\{\par
+  \par
+\}\par
+\par
+int checkCard(int ser0, int ser1, int ser2, int ser3, int ser4)\par
+\{\par
+  Serial.println("in checkCard");\par
+  int i=0;\par
+  int tmp0;\par
+  int tmp1;\par
+  int tmp2;\par
+  int tmp3;\par
+  int tmp4;\par
+  \par
+  while(i<n)\{\par
+    Serial.println("");\par
+    Serial.print("Card: ");\par
+    Serial.print(i);\par
+    Serial.print(" - RFID: ");\par
+    Serial.print(rfid.serNum[0]);\par
+    Serial.print(" - Store: ");\par
+    \par
+    tmp0 = Cards[i].serNum0;\par
+    tmp1 = Cards[i].serNum1;\par
+    tmp2 = Cards[i].serNum2;\par
+    tmp3 = Cards[i].serNum3;\par
+    tmp4 = Cards[i].serNum4;\par
+    \par
+    Serial.print(Cards[i].serNum0);\par
+    if(tmp0==ser0 \par
+    && tmp1==ser1 \par
+    && tmp2==ser2 \par
+    && tmp3==ser3 \par
+    && tmp4==ser4)\{\par
+      Serial.println("\\nOpen door\\n");\par
+      \par
+      return i;\par
+   \} \par
+   i+=1;\par
+  \}\par
+  return -1;\par
+  \par
+\}\par
+\par
+\par
+//Opens up Settings\par
+void settingState()\{\par
+  drawSettingButton();\par
+  while(true)\par
+  \{\par
+    if(myTouch.dataAvailable())\par
+    \{\par
+      myTouch.read();\par
+      x=myTouch.getX();\par
+      y=myTouch.getY();\par
+     \par
+     if(y>=90 && y<=154)\par
+     \{\par
+       if(x>=15 && x<=(15+64))\{\par
+        timerReadCard();         \par
+       \}else if(x>=(15+64+10) && x<=(15+10+(64)*2))\{\par
+        readAddCard(); \par
+       \}else if(x>=(15+10+(64)*2)+10 && x<= (15+10+(64)*2)+10+64)\{\par
+         deleteState();\par
+       \}/*else if(x>=((15+10+(64)*2)+10+64)+10 && x<= (15+10+(64)*2)+10+64+10+64)\{\par
+        //notes \par
+       \}*/\par
+      \par
+     \}\par
+    if(y>=5 && y<=39)\par
+    \{\par
+      if(x>=287 && x<=(287+34))\{\par
+        myGLCD.clrScr();\par
+        drawButtons();\par
+        break;\par
+      \}\par
+    \}\par
+  \}\par
+  if(rfid.isCard())\par
+    \{\par
+      if (rfid.readCardSerial()) \par
+      \{\par
+        //Serial.println("Lest kort");\par
+        int r = checkCard(rfid.serNum[0], rfid.serNum[1], rfid.serNum[2], rfid.serNum[3], rfid.serNum[4]);\par
+        if(r>=0)\{ \par
+          openDoor(r);\par
+        \}\par
+        if(r==0)\{\par
+         Serial.println("Card not found"); \par
+        //Lest kort, send til sjekk     \par
+      \}\par
+      \par
+    \}\par
+  \}\par
+  rfid.halt();\par
+  \}\par
+\}\par
+\par
+void setInitialData()\{\par
+  \par
+  displayBox.setId(0);\par
+  displayBox.setType(DATA_OUT);\par
+  displayBox.setLocation(0,0,FULL);\par
+  displayBox.setTitle("Status");\par
+  displayBox.setData("Door Closed");\par
+  displayBox.setTitleColor(WHITE);\par
+  displayBox.setTitleTextColor(TEXT_DARK);\par
+  \par
+  slider.setId(1);\par
+  slider.setType(SLIDER_IN);\par
+  slider.setLocation(1,0,FULL);\par
+  slider.setTitle("Timer");\par
+  slider.setSliderMinMax(0, 120);\par
+  slider.setSliderInitialValue(setTimer);\par
+  slider.setSliderNumIntervals(121);\par
+  slider.setSliderReportMode(ON_VALUE_CHANGE);\par
+  slider.setSliderColor(THEME_RED);\par
+  slider.setColor(THEME_RED_DARK);\par
+  \par
+  button.setId(2);\par
+  button.setType(BUTTON_IN);\par
+  button.setLocation(2,0, FULL);\par
+  button.setTitle("Open Door");\par
+  button.requireAck(true);\par
+  \par
+\}\par
+\par
+/*************************\par
+**  Required functions  **\par
+*************************/\par
+void setup()\par
+\{\par
+// Initial setup\par
+  SPI.begin();\par
+  rfid.init();\par
+  Andee.begin();\par
+  Andee.clear();\par
+  \par
+  setInitialData();\par
+  \par
+  Serial.begin(9600);\par
+  Serial.println("Setup");\par
+  myGLCD.InitLCD();\par
+  myGLCD.clrScr();\par
+  \par
+  testCard();\par
+  \par
+  myTouch.InitTouch();\par
+  myTouch.setPrecision(PREC_MEDIUM);\par
+\par
+  myGLCD.setFont(BigFont);\par
+  myGLCD.setBackColor(255, 255, 255);\par
+  drawButtons();  \par
+\}\par
+\par
+void loop()\par
+\{\par
+  Serial.println("loop");\par
+  while(true)\{\par
+    \par
+    setTimer=slider.getSliderValue(INT);\par
+    \par
+    if(button.isPressed())\{\par
+      button.ack();\par
+      openDoorTimer(setTimer);\par
+    \}\par
+    //Serial.println("before touch");\par
+    if(myTouch.dataAvailable())\par
+    \{\par
+      myTouch.read();\par
+      x=myTouch.getX();\par
+      y=myTouch.getY();\par
+      \par
+      if(x>=100 && x<=164)\par
+      \{\par
+        if(y>=99 && y<=163)\par
+        \{\par
+          //drawKeyboard();\par
+          openDoor(-1);\par
+        \}\par
+        \par
+      \}\par
+      if(x>=174 && x<=238)\{\par
+       if(y>=99 && y<=163)\{\par
+         settingState();\par
+       \} \par
+      \}\par
+    \}\par
+    \par
+    //Serial.println("before card");\par
+    if(rfid.isCard())\par
+    \{\par
+      if (rfid.readCardSerial()) \par
+      \{\par
+        //Serial.println("Lest kort");\par
+        int r = checkCard(rfid.serNum[0], rfid.serNum[1], rfid.serNum[2], rfid.serNum[3], rfid.serNum[4]);\par
+        if(r>=0)\{ \par
+          openDoor(r);\par
+        \}\par
+        if(r==0)\{\par
+         Serial.println("Card not found"); \par
+        //Lest kort, send til sjekk     \par
+      \}\par
+      \par
+    \}\par
+  \}\par
+  rfid.halt();\par
+  slider.update();\par
+  button.update();\par
+  displayBox.update();\par
+\}\par
+\}}

@@ -1,0 +1,15 @@
+﻿10.18 U = {1, 2, 3, 4, 5}.
+a) komplementet til {1, 2, 3} er {4, 5}.
+b) Potensmengden til {1, 4} er {Ø, {1}, {4}, {1, 4}}.
+c) En partisjon av {a, b, c, d, e, f} som inneholder {a, b, c, d} kan være 
+{{e}, [f}, {a, b, c, d}}.
+d) En partisjon av {1, 2, 3, 4} som inneholder to elementer kan være {{1, 4}, {2, 3}}.
+e) Fordi en partisjon av en mengde av ikke tomme delmengder hvor unionen av delmengdene er  den originale mengden og snittet er den tomme mengden Ø, i dette tilfellet er snittet av delmengdene lik {2}.
+f) Ja alle mengder er en delmengde av seg selv og siden potensmengden til en mengde er en mengde av alle mulige del	mengder vil det si at alle mengder en et element i en potensmengde.
+
+11.8
+a) Siden Likhetsrelasjonen på en mengde S, { x, x | x ∈ S}. Så vil det si at alle tall er relatert til seg selv, så ekvivalensklassene blir alle naturligetall to ganger.
+b) Ekvivalens klassene for heltall der x+y er lik et partall blir en for alle oddetall og en for alle partall.
+c) I denne ekvivalensrelasjonen vil det bli klasser inneholde søsken med samme mor, hvor alle menneskene som har samme mor havner i samme ekvivalensklasse.
+Man kan se på det som {<x, y>, <x, y>, ....} der tuppler er en person, x er personens mor og y er personens far, her vil alle tuppler med samme "y" havne i en og samme ekvivalensklasse.
+d) Det blir en klasse for alle mulige lengder ord helt til det lengste ordet i ordboken.

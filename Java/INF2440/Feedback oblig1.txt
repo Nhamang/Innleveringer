@@ -1,0 +1,3 @@
+•Godt jobbet, vi har hatt litt dialog over e-post, og det er tydelig at du har fikset opp og forstått hva du måtte rette opp i. Du har nå en rask kode! :)
+•Vil også skryte igjen av fine kommentarer på metoder(JavaDoc) og i koden, fortsett med det :)
+•Og lurt å lagre resultat til fil også.

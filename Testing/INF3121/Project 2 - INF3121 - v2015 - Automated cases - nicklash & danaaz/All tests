@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Test Suite</title>
+</head>
+<body>
+<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<tr><td><b>Test Suite</b></td></tr>
+<tr><td><a href="log in">log in</a></td></tr>
+<tr><td><a href="add email">Add email</a></td></tr>
+<tr><td><a href="change email">Change email</a></td></tr>
+<tr><td><a href="remove email">Remove email</a></td></tr>
+<tr><td><a href="editing">Editing</a></td></tr>
+<tr><td><a href="notification">Notification</a></td></tr>
+<tr><td><a href="recent changes">Recent changes</a></td></tr>
+<tr><td><a href="appearance">Appearance</a></td></tr>
+<tr><td><a href="reset">Reset all settings</a></td></tr>
+<tr><td><a href="log out">log out</a></td></tr>
+<tr><td><a href="(help me choose)">(help me choose)</a></td></tr>
+<tr><td><a href="(request an account)">(request an account)</a></td></tr>
+<tr><td><a href="(forgot password)">(forgot password)</a></td></tr>
+<tr><td><a href="(help me log in)">(help me log in)</a></td></tr>
+</tbody></table>
+</body>
+</html>

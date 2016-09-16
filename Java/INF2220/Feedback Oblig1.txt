@@ -1,0 +1,20 @@
+Kjempebra readme fil! Den inneholder kort og konsist alt det jeg trenger å vite. Bra!
+
+Du skrev dette i readme filen:
+
+New info:
+The program does not remove possible duplicates. This can happen in cases where wrong word contains same letter next to each other 
+or removing a letter and changing a letter gives the same. the assignment text says nothing about these cases.
+
+
+Det stemmer at dette ikke er et krav eller at det har ingen innvirkning på min bedømmelse av din oppgave, men jeg mener fortsatt at dette er en forbedring som bør være implementert for å få et så bra program som mulig.
+
+Du kunne også ha segmentert koden litt bedre.
+
+Ellers er koden greit kommentert og den gjør det den skal gjøre.
+
+Du har riktig statistikk og du generer riktige svar.
+
+Bra jobbet.
+
+Godkjent.

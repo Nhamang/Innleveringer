@@ -1,0 +1,45 @@
+﻿4.2 f) (P -->Q) og ((P^R)-->Q) er ikke ekvivalente fordi de ikke har samme sannhetverdi for enhver tilordning. Som er sett når P er sann Q er usann og R er usann så blir (P -->Q) usann og ((P^R)-->Q) sann. 
+ 
+ P   Q   R  | (P     -->     Q)| ((P  ^   R) -->    Q)
+ 1   1   1     1      1      1 |   1  0   1   1     1
+ 1   1   0     1      1      1 |   1  0   0   1     1
+ 1   0   1     1      0      0 |   1  1   1   0     0
+ 1   0   0     1      0      0 |   1  0   0   1     0
+ 0   1   1     0      1      1 |   0  0   1   1     1
+ 0   1   0     0      1      1 |   0  0   0   1     1
+ 0   0   1     0      1      0 |   0  0   1   1     0
+ 0   0   0     0      1      0 |   0  0   0   1     0
+
+4.7 ) C er en logisk konsekvens av (AvB), (A-->C) og (B-->C) fordi alle verdiene 
+som gjør (AvB), (A-->C) og (B-->C) sanne gjør også C sann.
+
+A  B  C | (A  v  B) | (A --> C) | (B --> C)
+1  1  1 |  1  1  1     1  1   1     1  1   1
+1  1  0 |  1  1  1     1  0   0     1  0   0
+1  0  1 |  1  1  0     1  1   1     0  1   1
+1  0  0 |  1  1  0     1  0   0     0  1   0
+0  1  1 |  0  1  1     0  1   1     1  1   1
+0  1  0 |  0  1  1     1  0   0     1  0   0
+0  0  1 |  0  0  0     0  1   1     0  1   1
+0  0  0 |  0  0  0     0  1   0     0  1   0
+
+
+4.11 gruppe 1 (A^B), -(-Av-B), -(A--> -B).
+gruppe 2 (A^-B), -(-AvB), -(A--> -B).
+gruppe 3 (-A^B), -(Av-B), -(-A-->-B).
+gruppe 4 (-A^-B), -(AvB), -(-A--> B)
+
+5.1 c) (A ∧ T) ⇔ A
+ fordi alle verdier som gjør A sann gjør også (A^T
+) sann. Og siden T alltid er sann så må 
+
+A  T | (A ^  T)  | A
+1  1 |  1 1  1   | 1
+0  1 |  0 0  1   | 0
+
+d) (Av⊥) <-> A fordi alle som gjør A sann gjør også (Av⊥) sann. Og siden ⊥
+ alltid er 0 så må A være sann for at (Av⊥) skal være sann da er (Av⊥) <--> A.
+
+A  ⊥ | (A v ⊥) | A
+1  0 |  1   0  | 1
+0  0 |  0   0  | 0

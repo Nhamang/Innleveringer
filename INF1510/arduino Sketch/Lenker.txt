@@ -1,0 +1,10 @@
+Biblioteker.
+
+utft:
+http://henningkarlsen.com/electronics/library.php?id=52
+
+utouch:
+http://henningkarlsen.com/electronics/library.php?id=56
+
+RFID:
+http://www.electrodragon.com/w/File:Rfid-master.zip

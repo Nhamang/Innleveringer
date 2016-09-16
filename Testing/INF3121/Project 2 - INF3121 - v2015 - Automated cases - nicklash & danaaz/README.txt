@@ -1,0 +1,1 @@
+The main file is called "all tests". when we saved from selenium we didn't get any HTML files

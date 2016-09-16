@@ -1,0 +1,39 @@
+Krets koblet til en arduino mega.
+
+LCD pin: Arduino pin.
+
+LCD Screen:
+DB8: D22
+DB9: D23
+DB10: D24
+DB11: D25
+DB12: D26
+DB13: D27
+DB14: D28
+DB15: D29
+DB7: D30
+DB6: D31
+DB5: D32
+DB4: D33
+DB3: D34
+DB2: D35
+DB1: D36
+DB0: D37
+RS: D38
+WR: D39
+CS: D40
+RST: D41
+
+Touchpins:
+T_IRQ: D2
+T_DOUT: D3
+T_DIN: D4
+T_CS: D5
+T_CLK: D6
+
+RFID:
+MOSI: D51
+MISO: D50
+SCK: D52
+RST: D49
+SDA: D48

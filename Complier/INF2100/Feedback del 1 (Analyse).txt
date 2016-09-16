@@ -1,0 +1,19 @@
+Hei =)
+
+Du hadde en aldri så liten logisk feil fra del0. I Scanner.readNext() sjekker du for = før du sjekker ==. Dermed vil == alltid logges som to assignToken etter hverandre. Endre på linjene slik at test-casene blir
+
+} else if ( (""+CharGenerator.curC+CharGenerator.nextC).equals("==") ) {
+    nextToken=equalToken;
+    CharGenerator.readNext();
+    CharGenerator.readNext();
+} else if (CharGenerator.curC == '=') {
+    nextToken=assignToken;
+    CharGenerator.readNext();
+}
+
+
+Når det gjelder del1 av besvarelsen, så sliter koden din litt med Expression og dens undersotter (Term, Factor, Primary osv). Sjekk med easter.alboc, da den har lange uttrykk som lett kan avsløre hvor i koden din logikken kræsjer. Forlanger at dette fikses til neste innlevering!
+
+Lykke til med del2 ^_^
+
+Inthu
