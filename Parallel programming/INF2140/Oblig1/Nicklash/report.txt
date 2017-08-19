@@ -1,0 +1,10 @@
+Name: Nicklas Mortensen Hamang
+Username: Nicklash
+
+My FSP is created to match what is described in the assignment text.
+Added variable on to test if device is on or off. 
+EventLock tests if device is on then runs rotator’s stopscanning, 
+eventScan tests if device is on then runs rotator’s startscanning.
+eventOn tests if device is off then changes display color, text and sets on variable to 1.
+eventOff tests if device is on then changes display color, text, angle back to start, sets on to 0, stops scanning.
+eventReset tests if device is on then sets tekst, angle to 0 and stops scanning

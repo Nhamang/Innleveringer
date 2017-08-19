@@ -1,0 +1,5 @@
+your_script	your_script-module.html
+your_script.pi	your_script-module.html#pi
+your_script.__package__	your_script-module.html#__package__
+your_script.main	your_script-module.html#main
+your_script.e	your_script-module.html#e

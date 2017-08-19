@@ -1,0 +1,78 @@
+
+******************Statistics************************
+****************************************************
+Antall Noder = 14269
+Depth of this binary tree 29
+The average depth is: 16.403812460578877
+First Word: elektrolytt. Last word: familiefellesskaps
+
+These are the amount of nodes per depth:
+Depth no: 1 has 2 nodes
+Depth no: 2 has 4 nodes
+Depth no: 3 has 8 nodes
+Depth no: 4 has 16 nodes
+Depth no: 5 has 32 nodes
+Depth no: 6 has 62 nodes
+Depth no: 7 has 117 nodes
+Depth no: 8 has 201 nodes
+Depth no: 9 has 337 nodes
+Depth no: 10 has 532 nodes
+Depth no: 11 has 786 nodes
+Depth no: 12 has 1058 nodes
+Depth no: 13 has 1291 nodes
+Depth no: 14 has 1424 nodes
+Depth no: 15 has 1487 nodes
+Depth no: 16 has 1482 nodes
+Depth no: 17 has 1339 nodes
+Depth no: 18 has 1189 nodes
+Depth no: 19 has 942 nodes
+Depth no: 20 has 665 nodes
+Depth no: 21 has 482 nodes
+Depth no: 22 has 333 nodes
+Depth no: 23 has 219 nodes
+Depth no: 24 has 126 nodes
+Depth no: 25 has 71 nodes
+Depth no: 26 has 43 nodes
+Depth no: 27 has 16 nodes
+Depth no: 28 has 4 nodes
+
+You entered: etterfølger
+The word entered was correct
+****************************************************
+
+You entered: eterfølger
+The word you entered was not correct.
+A similar word is: etterfølger
+A similar word is: etterfølger
+
+It tok a total of 15.0milliseconds to find similar words
+and a total of 2 similar words was found
+****************************************************
+
+You entered: etterfolger
+The word you entered was not correct.
+A similar word is: etterfølger
+
+It tok a total of 4.0milliseconds to find similar words
+and a total of 1 similar words was found
+****************************************************
+
+You entered: etterfølgern
+The word you entered was not correct.
+A similar word is: etterfølgere
+A similar word is: etterfølgers
+A similar word is: etterfølger
+A similar word is: etterfølgeren
+A similar word is: etterfølgerne
+
+It tok a total of 8.0milliseconds to find similar words
+and a total of 5 similar words was found
+****************************************************
+
+You entered: tterfølger
+The word you entered was not correct.
+A similar word is: etterfølger
+
+It tok a total of 2.0milliseconds to find similar words
+and a total of 1 similar words was found
+****************************************************

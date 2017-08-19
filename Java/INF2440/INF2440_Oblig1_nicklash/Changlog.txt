@@ -1,0 +1,8 @@
+Endret:
+Rapporten er oppdatert.
+
+Fikset:
+Sortering algoritmen for både første 50 og rest.
+Intervall regningen.
+Test algoritmen er fikset og kjører.
+

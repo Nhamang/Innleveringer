@@ -1,0 +1,21 @@
+Time complexity for finding cycle:
+
+Method findCycle = O(T*DFS)
+This method goes trough all the Tasks (T) once using a linear for loop.
+Giving O(T), for all Tasks in the loop with zero predecessors it calls for DFS()
+making it O(T*DFS) 
+
+Method DFS = O(|T|+|E|)
+This complexity comes from the method running through Tasks (T) once and Edge (E) once.
+
+For finding "best" time:
+Method: findEarliest = O((T*E*findEarliestRec))
+This is because it runs a for loop for Tasks (T) 
+then another for loop with the Edges(E) where (T) fits criteria.
+Calling on findEarliestRec().
+
+Method: findCycleRec = O(E)
+Only runs a linear for loop calling on itself.
+
+Topsort (Code written but not used):
+O(|T|+|E|)

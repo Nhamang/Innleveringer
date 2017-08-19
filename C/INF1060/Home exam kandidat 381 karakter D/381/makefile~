@@ -1,0 +1,20 @@
+CC=gcc
+GAMEFILES = player.c engine.c netcom.c ifitron.c
+SCOREFILES = highscoreserver.c netcom.c
+MULTIPLAYERFILES= Multiplayerserver.c netcom.c
+LIBS= -lncurses
+INCLUDE = -Iinclude
+
+
+all: game highscore multiplayer
+
+game:
+	$(CC) $(GAMEFILES) $(LIBS) -o ifitron
+
+highscore:
+	$(CC) $(SCOREFILES) -o high
+
+multiplayer:
+	$(CC) $(MULTIPLAYERFILES) -o multi
+clean:
+	rm high ifitron multi

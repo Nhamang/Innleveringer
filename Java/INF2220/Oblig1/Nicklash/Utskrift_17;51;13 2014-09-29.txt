@@ -1,0 +1,12 @@
+
+
+You entered: ettter
+The word you entered was not correct.
+A similar word is: etater when a letter was swapped with another
+A similar word is: etter when a letter is removed
+A similar word is: etter when a letter is removed
+A similar word is: etter when a letter is removed
+
+It tok a total of 7milliseconds to find similar words
+and a total of 4 similar words was found
+****************************************************

@@ -1,0 +1,28 @@
+package no.uio.ifi.pma.inf2140;
+
+
+
+class RadioController implements IRadioController {
+	
+    RadioController(IRadioDisplay display, IRotator rotator) {
+    }
+
+    public void eventLock() {
+    }
+
+    public void eventScan() {
+    }
+    
+    public void eventOn() {
+    }
+    
+    public void eventOff() {
+    }
+    
+    public void eventReset() {
+    }
+    
+}
+
+
+/****************************************************************************/

@@ -1,0 +1,37 @@
+const M = 3
+const N = 3
+const R = 3
+const V = 3
+range D = 3..3
+range ID = 1..2
+
+//Exercise #1
+START = K[N],
+K[lose:1..N] = (datasend[bit:0..1][data:D][s:ID] -> H[bit][lose][data][s]),
+
+H[bit:0..1][lose:1..N][data:D][s:ID] = (datarecive[bit][data][s] -> K[N]
+| when (lose>1) lostK -> K[lose-1]
+| when (lose>=2) datarecive[bit][data][s] -> H[bit][lose-1][data][s]).
+//15
+START2 = L[V],
+L[lose:1..R] = (send_ack[bit:0..1][s:ID] -> T[bit][lose][s]),
+
+T[bit:0..1][lose:1..R][s:ID] = (recieve_ack[bit][s] -> L[R]
+| when (lose>1) loseL -> L[lose-1]
+| when (lose>=2) recive_ack[bit][s] -> T[bit][lose-1][s]).
+
+//Exercise #2
+
+START3 = SEND [0],
+SEND[a:0..1] = (p[s:1..2].in_msg[data:D] -> SEND[a][data][s]),
+
+SEND[a:0..1][data:D][s:ID] = (datasend[a][data][s] -> SEND[a][data][s]
+| recieve_ack[b:0..1][r:ID] -> if(a==b) then (p[r].out.ack ->SEND [1-a]) else SEND[a][data][s]).
+//30
+START4 = RECEIV[0],
+RECEIV[b:0..1] = (datarecive[bit2:0..1][data:D][s:ID] -> if(bit2 ==b) then (s[s].out_msg[data] -> s[s].in_ack -> send_ack[b][s] -> RECEIV [1-b]) else (send_ack[bit2][s] -> RECEIV[b])).
+
+//Exercise #4
+SUPERS = (input.[data:D]->in_msg[data] -> out_ack -> SUPERS).
+SUPERR = (out_msg[data:D] -> ourput[data] -> in_ack -> SUPERR).
+||SUPERSENDERS = (p[i:ID]:SUPERS || s[f:ID]:SUPERR||START||START2||START3||START4).

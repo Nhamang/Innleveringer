@@ -1,0 +1,12 @@
+OFF = (on -> TOP),
+TOP = (off -> OFF
+		|reset -> TOP
+		|scan -> SCANNING),
+SCANNING = (scan -> SCANNING
+			|lock -> TUNED
+			|reset -> TOP
+			|off -> OFF),
+TUNED = (scan -> SCANNING
+		|reset -> TOP
+		|off -> OFF).
+

@@ -1,0 +1,1 @@
+JAVA'en funker ikke helt, men har gjort mesteparten av oppg 3 og 5.

@@ -1,0 +1,5 @@
+Koden er lite kommentert. siden det ikke sto noe om det valgte jeg å bruke ArrayList. programmet sorterer og lagrer til fil. Tror kjøretiden er feil
+
+Kjøretid: Når antall tråder dobles ser jeg nesten ingen forandring i tid. Når ordene fordobles tar den ca 1 sekund lenger.
+
+Parallellitet: den eneste som ikke kan kjøres parallelt er den som inneholder Synchronized.

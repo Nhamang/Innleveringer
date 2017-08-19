@@ -1,0 +1,173 @@
+<!-- vim: ts=2:sts=2:sw=2:expandtab
+  -->
+<project name="INF1010-Oblig2-assignment" default="usage" basedir=".">
+  <description>
+    Build script for INF1010 Oblig 2.
+  </description>
+  <!-- 
+     * Set your UiO username in the value field of this property.
+    -->
+  <property name="USERNAME" value="NICKLASH" />
+  
+  
+  <!-- Do not change anything below here-->
+  
+  <property name="file-postfix" value="_inf1010-oblig2.zip" />
+  <property name="delivery-file" value="${USERNAME}${file-postfix}" />
+  
+  <!-- set global properties for this build -->
+  <property name="assignment-src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
+  <property name="test-output"  location="test-output"/>
+
+  <property name="inf1010-lib" location="lib/inf1010-oblig2-lib.jar"/>
+  <property name="testng-lib" location="lib/testng-5.11.jar"/>
+  <property name="libs" location="${inf1010-lib}:${testng-lib}"/>
+  
+  <path id="project.class.path">
+    <pathelement path="${java.class.path}/"/>
+    <pathelement location="${libs}"/>
+    <pathelement location="${inf1010-lib}"/>
+    <pathelement location="${testng-lib}"/>
+    <pathelement location="${build}"/>
+  </path>
+  
+  <target name="usage">
+    <echo>
+      ============================================
+      ====   INF1010 Oblig 2 - Build file     ====
+      ============================================
+      Targets:
+      clean                - clean up
+      compile              - compile source code
+      shell                - Run the shell
+      create-delivery      - Create the delivery file to hand in.
+
+      Test targets:
+      test                 - Compile and test OrderedSetTest
+     
+      Example usage:
+
+      Compile and test the tree:
+      ~$ ant test
+
+      Compile and show run-instructions for the shell:
+      ~$ ant shell
+    </echo>
+  </target>
+
+
+  <target name="init">
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+    <copy file="${assignment-src}/test/resources/testreportstyle.css" todir="${build}"/>
+  </target>
+
+  <!-- Compile source code -->
+  <target name="compile" depends="init"
+          description="compile the source"> 
+    <javac srcdir="${assignment-src}" 
+           destdir="${build}"
+           includeantruntime="false"
+           debug="true" debuglevel="lines,vars,source">
+      <classpath refid="project.class.path"/>
+	  <compilerarg value="-Xlint"/>
+	</javac>
+  </target>
+
+  <target name="shell" depends="compile"
+          description="echo the shell command">
+
+    <echo>
+      ==============================================
+      ====          Run instructions            ====
+      ==============================================
+      Execute the following command to run the shell:
+
+      MS Windows:
+      ~$ java -cp build;lib/inf1010-oblig2-lib.jar inf1010.assignment.Shell
+
+      Linux/Mac OSX (bash)
+      ~$ java -cp build:lib/inf1010-oblig2-lib.jar inf1010.assignment.Shell
+
+      To compile and execute in one command on Linux:
+      ~$ ant compile &amp;&amp; java -cp build:lib/inf1010-oblig2-lib.jar inf1010.assignment.Shell
+    </echo>
+  </target>
+
+  <target name="clean"
+          description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+    <delete file="${delivery-file}"/>
+  </target>
+
+
+  <!-- Create delivery file -->
+  <target name="create-delivery" description="Create file to be delivered">
+
+    <echo>Rememeber to write your comments to the file TO_LAB_TEACHER.txt</echo>
+
+    <!-- Fail if file name hasn't been changed -->
+    <fail message="You have to set your UiO username in the build.xml file">
+      <condition>
+        <equals arg1="${delivery-file}" arg2="${file-postfix}"/>
+      </condition>
+    </fail>
+
+    <zip destfile="${delivery-file}"
+         basedir="."
+         includes="lib/inf1010-oblig2-lib.jar,
+                   src/main/java/inf1010/assignment/*.java,
+                   src/test/java/inf1010/assignment/*.java,
+                   src/test/resources/testng.xml,
+                   src/test/resources/testreportstyle.css,
+                   build.xml,
+                   TO_LAB_TEACHER.txt"
+         />
+
+    <echo>
+      Extract the zip-file in another directory and run both the tests and
+      the shell and make sure it works. Note that lib/testng-5.11.jar is NOT
+      included in the created zip-file, so you need to copy it into the
+      extracted directory in order to test your delivery.</echo>
+  </target>
+
+  <!-- TESTING -->
+
+  <taskdef name="testng"
+           classname="com.beust.testng.TestNGAntTask"
+           classpath="${libs}"/>
+  
+  <target name="TestReport">
+    <echo>
+      Test report written to build/Testreport.html
+    </echo>
+  </target>
+  
+   <target name="OrderedSetTest" depends="compile">
+    <testng classpathref="project.class.path"
+            haltOnFailure="false" verbose="2"
+            workingdir="${build}"
+            useDefaultListeners="false"
+            suitename="OrderedSetTest"
+            listeners="inf1010.lib.two.TestReport">
+      <classfileset dir="${build}" includes="**/OrderedSetTest.class" />
+    </testng>
+    <antcall target="TestReport"/>
+  </target>
+
+  <target name="test" depends="compile">
+    <echo message="Running all tests"/>
+    <testng classpathref="project.class.path"
+            haltOnFailure="false" verbose="2"
+            workingdir="${build}"
+            useDefaultListeners="false"
+            listeners="inf1010.lib.two.TestReport">
+      <xmlfileset dir="${assignment-src}/test/resources" includes="testng.xml"/>
+    </testng>
+    <antcall target="TestReport"/>
+  </target>
+</project>

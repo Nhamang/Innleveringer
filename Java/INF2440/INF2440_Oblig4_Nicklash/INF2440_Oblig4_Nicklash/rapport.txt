@@ -1,0 +1,25 @@
+Koden kompilerer med javac radixSort.java
+Den kjøres med Oblig4 <n>
+
+maskinen kjører Itel(r) Atom (TM) CPU Z3735F @ 1,33GHz
+
+Rapporten mangler graf, tabel og median etter som jeg ble ferdig så sent. samme grunn med java doc.
+
+
+Steg c.
+Det blir beregnet hvor stor plass som skal alokeres ved hensyn til frekvensen til de tidligere trådene også da samtidlig for de fremtidige trådene. Dette kan da brukes til å finne den riktige distibusjonen av hver element i a til b.
+
+1000
+seq: 7.838966 parTime: 10.953202 speedup: 0.7156780273019707
+
+10000
+seq: 11.95928 parTime: 16.349931 speedup: 0.731457521135716
+
+100000
+seq: 21.043173 parTime: 27.445213 speedup: 0.7667338198468345
+
+1000000
+seq: 102.526333 parTime: 58.56223 speedup: 1.7507245369583773
+
+10000000
+seq: 1018.483432 parTime: 498.270082 speedup: 2.044038903383326

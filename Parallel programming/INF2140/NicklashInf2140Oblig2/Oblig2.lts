@@ -1,0 +1,16 @@
+const P = 4
+const D = 2
+const CH = 3
+PATIENT = (enter->wait->open_mouth->pay->PATIENT).
+DENTIST = (p[i:1..P].put_anesthesia->p[i].pull_tooth -> DENTIST).
+
+|| PATIENTS = (p[1..P] : PATIENT). 
+|| DENTISTS = (d[1..D] : DENTIST).
+
+SECRETARY = MONITOR[D][CH],
+MONITOR[d:0..D][i:0..CH] = (when(i>0) p[1..P].enter -> MONITOR[d][i-1]
+						|when (i<CH && d>0) p[j:1..P].open_mouth -> d[1..D].p[j].put_anesthesia -> MONITOR[d-1][i+1]
+						|when (d<D) d[1..D].p[k:1..P].pull_tooth -> p[k].pay -> MONITOR[d+1][i]).
+
+
+||CLINIC = (PATIENTS || DENTISTS || SECRETARY).

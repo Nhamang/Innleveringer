@@ -1,0 +1,213 @@
+Koden kompileres med: javac Oblig2.java
+Koden kjøres med: java Oblig2 <n> <optional k>
+
+algoritmen for å finne primtall sekvensiell funker ved og begynne med et kjent primtall
+her nummer 3 og fjerner alle nummer som kommer av å legge til det dobelte av seg selv, 
+til den treffer kvadraten av seg selv. Den går da videre til neste primtall helt til kvadraten er over max.
+
+Den sekvensielle faktoriseringen tar inn et nummer å tester om det ikke blir rest hvis tallet deles
+med dette primtall. Hvis det ikke blir rest legges primtallet til og testes igjen helt til den gir rest. 
+Den går videre til neste primtall og gjentaar til tallet treffer 1.
+
+Den parallelle løsningen for silenfunker ved å først finne alle primtall under kvadratroten av n. 
+Den deler da resten over n antall tråder og finner alle primtall innenfor sin del av tallet.
+
+Parallel factorisering funker på samme måte som sekvensiell men isteden for å teste hele arrayet får hver tråd
+sin minimum og maximum primtall. Alt blir lagt til en liste og så printet ut. 
+Det regnes da også til slutt ut om tallet har et primtall over n.
+
+Gjennomsnittlig speedup fra 2millioner til 2milliarder er
+på primtall generering: 1.59
+på faktorisering: 2.35
+
+Sammenlagt speedup er
+på primtall generering: 1.69
+på faktorisering: 2.17
+
+Merker at med en 10 dobling av problemets størrelse vil sekvensiell 
+nesten tidoble og tyvedoble tiden med engang på både generering of factorisering.
+Mens parallel vil da tar fler tidoblinger får tiden også øker med en tidoblig eller mer.
+
+
+/********************************************************************/
+max primtall m: 2000000
+
+----------Sequential----------
+Generated all primes <= 2000000 on 10.600295ms
+That is 71ns per prime
+there are 148933 prime numbers <2000000 which is 7.44665%
+
+The prime factors of 3999999999999 are  3 17 71 1657 666667
+The prime factors of 3999999999998 are  2 3833 521784503
+The prime factors of 3999999999997 are  3877 1031725561
+The prime factors of 3999999999996 are  2 2 3 3 3 7 11 13 37 101 9901
+The prime factors of 3999999999995 are  5 131 331 18449759
+
+The prime factors of 3999999999904 are  2 2 2 2 2 124999999997
+The prime factors of 3999999999903 are  3 1333333333301
+The prime factors of 3999999999902 are  2 23 1697 1847 27743
+The prime factors of 3999999999901 are  491 2207 3691273
+The prime factors of 3999999999900 are  2 2 3 5 5 163 409 199999
+
+it took 413.367138ms to factorize and print 100 numbers
+
+
+----------Parallel----------
+Generated all primes <= 2000000 on 16.031547ms
+That is 107ns per prime
+there are 148933 prime numbers <2000000 which is 7.44665%
+
+The factors of 3999999999999 are: 666667 3 17 71 1657
+The factors of 3999999999998 are: 2 3833 521784503
+The factors of 3999999999997 are: 3877 1031725561
+The factors of 3999999999996 are: 2 2 3 3 3 7 11 13 37 101 9901
+The factors of 3999999999995 are: 5 131 331 18449759
+
+The factors of 3999999999904 are: 2 2 2 2 2 124999999997
+The factors of 3999999999903 are: 3 1333333333301
+The factors of 3999999999902 are: 2 23 1697 1847 27743
+The factors of 3999999999901 are: 491 2207 3691273
+The factors of 3999999999900 are: 2 2 3 5 5 163 409 199999
+
+it took 252.249806ms to factorize and print 100 numbers
+
+Speedup prime: 0.6612147286846366
+Speedup factor: 1.6387213316627882
+
+/**********************************************/
+max primtall m: 20000000
+
+----------Sequential----------
+Generated all primes <= 20000000 on 58.734997ms
+That is 46ns per prime
+there are 1270607 prime numbers <20000000 which is 6.353035%
+
+The prime factors of 399999999999999 are  3 7 952381 19999999 1
+The prime factors of 399999999999998 are  2 23 8695652173913
+The prime factors of 399999999999997 are  399999999999997
+The prime factors of 399999999999996 are  2 2 3 3 11 239 4649 909091
+The prime factors of 399999999999995 are  5 207869 384857771
+
+The prime factors of 399999999999905 are  5 4391 18219084491
+The prime factors of 399999999999904 are  2 2 2 2 2 241 379 136852823
+The prime factors of 399999999999903 are  3 101 1320132013201
+The prime factors of 399999999999902 are  2 5849089 34193359
+The prime factors of 399999999999901 are  7 577 99034414459
+The prime factors of 399999999999900 are  2 2 3 5 5 17 71 1657 666667
+
+it took 3961.640891ms to factorize and print 100 numbers
+
+
+----------Parallel----------
+Generated all primes <= 20000000 on 31.91643ms
+That is 25ns per prime
+there are 1270607 prime numbers <20000000 which is 6.353035%
+
+The factors of 399999999999999 are: 3 7 952381 19999999
+The factors of 399999999999998 are: 2 23 8695652173913
+The factors of 399999999999997 are: 399999999999997
+The factors of 399999999999996 are: 2 2 3 3 11 239 4649 909091
+The factors of 399999999999995 are: 5 207869 384857771
+
+The factors of 399999999999904 are: 2 2 2 2 2 241 379 136852823
+The factors of 399999999999903 are: 3 101 1320132013201
+The factors of 399999999999902 are: 5849089 2 34193359
+The factors of 399999999999901 are: 7 577 99034414459
+The factors of 399999999999900 are: 2 2 3 5 5 17 71 1657 666667
+
+it took 1348.373869ms to factorize and print 100 numbers
+
+Speedup prime: 1.840274648511754
+Speedup factor: 2.9380878568479587
+
+/**************************************************/
+max primtall m: 200000000
+
+----------Sequential----------
+Generated all primes <= 200000000 on 974.848385ms
+That is 87ns per prime
+there are 11078937 prime numbers <200000000 which is 5.539469%
+
+The prime factors of 39999999999999999 are  3 89 1447 1553 66666667
+The prime factors of 39999999999999998 are  2 7 47 281081 216273151
+The prime factors of 39999999999999997 are  37 1081081081081081
+The prime factors of 39999999999999996 are  2 2 3 3 11 17 73 101 137 5882353
+The prime factors of 39999999999999995 are  5 199999 40000200001
+
+The prime factors of 39999999999999904 are  2 2 2 2 2 47 7867 19843 170371
+The prime factors of 39999999999999903 are  3 191 69808027923211
+The prime factors of 39999999999999902 are  2 16103 1242004595417
+The prime factors of 39999999999999901 are  181 229 229 47237 89213
+The prime factors of 39999999999999900 are  2 2 3 5 5 7 952381 19999999
+
+it took 30951.87523ms to factorize and print 100 numbers
+
+
+----------Parallel----------
+Generated all primes <= 200000000 on 440.055263ms
+That is 39ns per prime
+there are 11078937 prime numbers <200000000 which is 5.539469%
+
+The factors of 39999999999999999 are: 3 89 1447 1553 66666667
+The factors of 39999999999999998 are: 2 7 47 281081 216273151
+The factors of 39999999999999997 are: 37 1081081081081081
+The factors of 39999999999999996 are: 2 2 3 3 11 17 73 101 137 5882353
+The factors of 39999999999999995 are: 5 199999 40000200001
+
+The factors of 39999999999999904 are: 2 2 2 2 2 47 7867 19843 170371
+The factors of 39999999999999903 are: 3 191 69808027923211
+The factors of 39999999999999902 are: 2 16103 1242004595417
+The factors of 39999999999999901 are: 181 229 229 47237 89213
+The factors of 39999999999999900 are: 2 2 3 5 5 7 952381 19999999
+
+it took 11190.204742ms to factorize and print 100 numbers
+
+Speedup prime: 2.2152862764420567
+Speedup factor: 2.765979349227532
+
+/******************************/
+
+max primtall m: 2000000000
+
+----------Sequential----------
+Generated all primes <= 2000000000 on 13477.175166ms
+That is 137ns per prime
+there are 98222287 prime numbers <2000000000 which is 4.911114%
+
+The prime factors of 3999999999999999999 are  3 31 64516129 666666667
+The prime factors of 3999999999999999998 are  2 432809599 4620969601
+The prime factors of 3999999999999999997 are  421 9501187648456057
+The prime factors of 3999999999999999996 are  2 2 3 3 3 3 7 11 13 19 37 52579 33
+3667
+The prime factors of 3999999999999999995 are  5 159059 303539 16569799
+
+The prime factors of 3999999999999999904 are  2 2 2 2 2 1061 117813383600377
+The prime factors of 3999999999999999903 are  3 101 241 54777261958561
+The prime factors of 3999999999999999902 are  2 49965473 40027640687
+The prime factors of 3999999999999999901 are  19 2897 72670457642207
+The prime factors of 3999999999999999900 are  2 2 3 5 5 89 1447 1553 66666667
+
+it took 266791.33529ms to factorize and print 100 numbers
+
+
+----------Parallel----------
+Generated all primes <= 2000000000 on 8073.456819ms
+That is 82ns per prime
+there are 98222287 prime numbers <2000000000 which is 4.911114%
+
+The factors of 3999999999999999999 are: 666666667 3 31 64516129
+The factors of 3999999999999999998 are: 2 432809599 4620969601
+The factors of 3999999999999999997 are: 421 9501187648456057
+The factors of 3999999999999999996 are: 2 2 3 3 3 3 7 11 13 19 37 52579 333667
+The factors of 3999999999999999995 are: 5 159059 303539 16569799
+
+The factors of 3999999999999999904 are: 2 2 2 2 2 1061 117813383600377
+The factors of 3999999999999999903 are: 3 101 241 54777261958561
+The factors of 3999999999999999902 are: 2 49965473 40027640687
+The factors of 3999999999999999901 are: 19 2897 72670457642207
+The factors of 3999999999999999900 are: 2 2 3 5 5 89 1447 1553 66666667
+
+it took 125959.776287ms to factorize and print 100 numbers
+
+Speedup prime: 1.6693190374515832
+Speedup factor: 2.1180677129984304

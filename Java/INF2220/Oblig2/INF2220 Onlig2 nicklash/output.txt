@@ -1,0 +1,604 @@
+/*--------------------------------------------------------*/
+/*                 Start buildhouse1.txt                  */
+/*--------------------------------------------------------*/
+	
+
+Time: 0
+	Starting: 5
+Staff: 2
+
+Time: 4
+	Starting: 1
+	Finished: 5
+	Starting: 6
+Staff: 4
+
+Time: 6
+	Finished: 6
+Staff: 2
+
+Time: 8
+	Finished: 1
+	Starting: 2
+Staff: 4
+
+Time: 14
+	Finished: 2
+	Starting: 3
+	Starting: 4
+	Starting: 7
+Staff: 7
+
+Time: 15
+	Finished: 3
+	Finished: 4
+Staff: 2
+
+Time: 18
+	Finished: 7
+	Starting: 8
+Staff: 4
+
+Time: 22
+	Finished: 8
+
+Fastest time: 22.
+*-----------------------------------*
+
+Task id: 1
+Name: Build-walls
+Time: 4
+Staff: 2
+Slack 0
+Earliest Start: 4
+Lastest Start: 4
+Tasks dependent on this:  2  3 
+*-----------------------------------*
+
+Task id: 2
+Name: Build-roofs
+Time: 6
+Staff: 4
+Slack 2
+Earliest Start: 8
+Lastest Start: 10
+Tasks dependent on this:  3  4  7 
+*-----------------------------------*
+
+Task id: 3
+Name: Put-on-wallpapers
+Time: 1
+Staff: 2
+Slack 0
+Earliest Start: 14
+Lastest Start: 14
+Tasks dependent on this:  8 
+*-----------------------------------*
+
+Task id: 4
+Name: Put-on-tiles
+Time: 1
+Staff: 3
+Slack 7
+Earliest Start: 14
+Lastest Start: 21
+Tasks dependent on this: 
+*-----------------------------------*
+
+Task id: 5
+Name: Build-foundation
+Time: 4
+Staff: 2
+Slack 0
+Earliest Start: 0
+Lastest Start: 0
+Tasks dependent on this:  1  6 
+*-----------------------------------*
+
+Task id: 6
+Name: Make-floor
+Time: 2
+Staff: 2
+Slack 6
+Earliest Start: 4
+Lastest Start: 10
+Tasks dependent on this:  7 
+*-----------------------------------*
+
+Task id: 7
+Name: Put-carpet-floor
+Time: 4
+Staff: 2
+Slack 0
+Earliest Start: 14
+Lastest Start: 14
+Tasks dependent on this:  8 
+*-----------------------------------*
+
+Task id: 8
+Name: Move-in
+Time: 4
+Staff: 4
+Slack 0
+Earliest Start: 18
+Lastest Start: 18
+Tasks dependent on this: 
+
+These Tasks are critical: 
+ 8 7 5 3 1
+
+
+/*--------------------------------------------------------*/
+/*                 Start buildhouse2.txt                  */
+/*--------------------------------------------------------*/
+
+Has a cycle
+ 5  1  2  3  6  1 
+
+/*--------------------------------------------------------*/
+/*                 Start buildrail.txt                    */
+/*--------------------------------------------------------*/
+
+
+Time: 0
+	Starting: 9
+Staff: 10
+
+Time: 3
+	Finished: 9
+	Starting: 10
+	Starting: 11
+	Starting: 12
+	Starting: 14
+	Starting: 16
+	Starting: 17
+Staff: 56
+
+Time: 4
+	Finished: 11
+	Starting: 18
+	Starting: 19
+	Starting: 20
+Staff: 64
+
+Time: 5
+	Starting: 2
+	Finished: 10
+Staff: 70
+
+Time: 12
+	Finished: 2
+Staff: 60
+
+Time: 16
+	Finished: 20
+	Starting: 23
+Staff: 61
+
+Time: 28
+	Finished: 14
+	Starting: 15
+Staff: 61
+
+Time: 29
+	Finished: 19
+Staff: 57
+
+Time: 33
+	Finished: 12
+	Starting: 13
+Staff: 57
+
+Time: 38
+	Finished: 16
+Staff: 45
+
+Time: 44
+	Finished: 18
+	Starting: 21
+Staff: 46
+
+Time: 46
+	Finished: 23
+	Starting: 26
+Staff: 48
+
+Time: 48
+	Finished: 15
+	Finished: 17
+	Starting: 22
+Staff: 29
+
+Time: 51
+	Starting: 8
+	Finished: 13
+Staff: 24
+
+Time: 59
+	Finished: 21
+	Starting: 24
+Staff: 26
+
+Time: 63
+	Starting: 3
+	Finished: 8
+Staff: 29
+
+Time: 64
+	Finished: 3
+	Finished: 22
+	Starting: 25
+Staff: 21
+
+Time: 66
+	Finished: 26
+Staff: 14
+
+Time: 119
+	Starting: 4
+	Finished: 24
+Staff: 13
+
+Time: 124
+	Starting: 5
+	Finished: 25
+	Starting: 27
+Staff: 22
+
+Time: 134
+	Finished: 4
+Staff: 16
+
+Time: 136
+	Finished: 5
+Staff: 10
+
+Time: 149
+	Finished: 27
+	Starting: 28
+	Starting: 29
+Staff: 20
+
+Time: 179
+	Finished: 28
+Staff: 10
+
+Time: 186
+	Starting: 1
+	Starting: 6
+	Starting: 7
+	Finished: 29
+	Starting: 30
+Staff: 29
+
+Time: 204
+	Finished: 7
+Staff: 23
+
+Time: 206
+	Finished: 1
+	Finished: 30
+	Starting: 31
+Staff: 13
+
+Time: 213
+	Finished: 6
+Staff: 7
+
+Time: 218
+	Finished: 31
+
+Fastest time: 218.
+*-----------------------------------*
+
+Task id: 1
+Name: Install-pavement
+Time: 20
+Staff: 10
+Slack 12
+Earliest Start: 186
+Lastest Start: 198
+Tasks dependent on this: 
+*-----------------------------------*
+
+Task id: 2
+Name: Install-railing
+Time: 7
+Staff: 10
+Slack 206
+Earliest Start: 5
+Lastest Start: 211
+Tasks dependent on this: 
+*-----------------------------------*
+
+Task id: 3
+Name: Install-ticketmachine
+Time: 1
+Staff: 10
+Slack 154
+Earliest Start: 63
+Lastest Start: 217
+Tasks dependent on this: 
+*-----------------------------------*
+
+Task id: 4
+Name: Paint-tower-1-with-arch
+Time: 15
+Staff: 6
+Slack 84
+Earliest Start: 119
+Lastest Start: 203
+Tasks dependent on this: 
+*-----------------------------------*
+
+Task id: 5
+Name: Paint-tower-2
+Time: 12
+Staff: 6
+Slack 82
+Earliest Start: 124
+Lastest Start: 206
+Tasks dependent on this: 
+*-----------------------------------*
+
+Task id: 6
+Name: Paint-trusses
+Time: 27
+Staff: 6
+Slack 5
+Earliest Start: 186
+Lastest Start: 191
+Tasks dependent on this: 
+*-----------------------------------*
+
+Task id: 7
+Name: Paint-cables-and-rods
+Time: 18
+Staff: 6
+Slack 14
+Earliest Start: 186
+Lastest Start: 200
+Tasks dependent on this: 
+*-----------------------------------*
+
+Task id: 8
+Name: Put-lane-tunnel-and-intersection
+Time: 12
+Staff: 7
+Slack 143
+Earliest Start: 51
+Lastest Start: 194
+Tasks dependent on this:  3  31 
+*-----------------------------------*
+
+Task id: 9
+Name: Setup-barrack
+Time: 3
+Staff: 10
+Slack 0
+Earliest Start: 0
+Lastest Start: 0
+Tasks dependent on this:  10  11  12  14  16  17 
+*-----------------------------------*
+
+Task id: 10
+Name: Prepare-storage
+Time: 2
+Staff: 4
+Slack 201
+Earliest Start: 3
+Lastest Start: 204
+Tasks dependent on this:  2 
+*-----------------------------------*
+
+Task id: 11
+Name: Rig-ramspace-reinforcing
+Time: 1
+Staff: 4
+Slack 0
+Earliest Start: 3
+Lastest Start: 3
+Tasks dependent on this:  18  19  20 
+*-----------------------------------*
+
+Task id: 12
+Name: Build-tunnel
+Time: 30
+Staff: 12
+Slack 161
+Earliest Start: 3
+Lastest Start: 164
+Tasks dependent on this:  13 
+*-----------------------------------*
+
+Task id: 13
+Name: Clean-tunnel
+Time: 18
+Staff: 12
+Slack 149
+Earliest Start: 33
+Lastest Start: 182
+Tasks dependent on this:  8 
+*-----------------------------------*
+
+Task id: 14
+Name: Build-intersection
+Time: 25
+Staff: 12
+Slack 159
+Earliest Start: 3
+Lastest Start: 162
+Tasks dependent on this:  15 
+*-----------------------------------*
+
+Task id: 15
+Name: Clean-intersection
+Time: 20
+Staff: 12
+Slack 154
+Earliest Start: 28
+Lastest Start: 182
+Tasks dependent on this:  8 
+*-----------------------------------*
+
+Task id: 16
+Name: Build-towerfoundation-1
+Time: 35
+Staff: 12
+Slack 26
+Earliest Start: 3
+Lastest Start: 29
+Tasks dependent on this:  21 
+*-----------------------------------*
+
+Task id: 17
+Name: Build-towerfoundation-2
+Time: 45
+Staff: 12
+Slack 29
+Earliest Start: 3
+Lastest Start: 32
+Tasks dependent on this:  22 
+*-----------------------------------*
+
+Task id: 18
+Name: Make-armouring-tower-1
+Time: 40
+Staff: 4
+Slack 25
+Earliest Start: 4
+Lastest Start: 29
+Tasks dependent on this:  21 
+*-----------------------------------*
+
+Task id: 19
+Name: Make-armouring-tower-2
+Time: 25
+Staff: 4
+Slack 28
+Earliest Start: 4
+Lastest Start: 32
+Tasks dependent on this:  22 
+*-----------------------------------*
+
+Task id: 20
+Name: Make-armouring-arch
+Time: 12
+Staff: 4
+Slack 140
+Earliest Start: 4
+Lastest Start: 144
+Tasks dependent on this:  23 
+*-----------------------------------*
+
+Task id: 21
+Name: Encase-and-armour-tower-1
+Time: 15
+Staff: 5
+Slack 0
+Earliest Start: 44
+Lastest Start: 44
+Tasks dependent on this:  24 
+*-----------------------------------*
+
+Task id: 22
+Name: Encase-and-armour-tower-2
+Time: 16
+Staff: 5
+Slack 0
+Earliest Start: 48
+Lastest Start: 48
+Tasks dependent on this:  25 
+*-----------------------------------*
+
+Task id: 23
+Name: Encase-and-armour-arch
+Time: 30
+Staff: 5
+Slack 158
+Earliest Start: 16
+Lastest Start: 174
+Tasks dependent on this:  26 
+*-----------------------------------*
+
+Task id: 24
+Name: Cast-tower-1
+Time: 60
+Staff: 7
+Slack 43
+Earliest Start: 59
+Lastest Start: 102
+Tasks dependent on this:  4  27 
+*-----------------------------------*
+
+Task id: 25
+Name: Cast-tower-2
+Time: 60
+Staff: 7
+Slack 38
+Earliest Start: 64
+Lastest Start: 102
+Tasks dependent on this:  5  27 
+*-----------------------------------*
+
+Task id: 26
+Name: Cast-arch
+Time: 20
+Staff: 7
+Slack 148
+Earliest Start: 46
+Lastest Start: 194
+Tasks dependent on this:  31 
+*-----------------------------------*
+
+Task id: 27
+Name: Stretch-two-maincables
+Time: 25
+Staff: 10
+Slack 3
+Earliest Start: 124
+Lastest Start: 127
+Tasks dependent on this:  28  29 
+*-----------------------------------*
+
+Task id: 28
+Name: Build-truss-1-with-rods
+Time: 30
+Staff: 10
+Slack 15
+Earliest Start: 149
+Lastest Start: 164
+Tasks dependent on this:  1  6  7  30 
+*-----------------------------------*
+
+Task id: 29
+Name: Build-truss-2-with-rods
+Time: 37
+Staff: 10
+Slack 15
+Earliest Start: 149
+Lastest Start: 164
+Tasks dependent on this:  1  6  7  30 
+*-----------------------------------*
+
+Task id: 30
+Name: Cast-lane-on-truss
+Time: 20
+Staff: 7
+Slack 8
+Earliest Start: 186
+Lastest Start: 194
+Tasks dependent on this:  31 
+*-----------------------------------*
+
+Task id: 31
+Name: Polish-lane-on-arch
+Time: 12
+Staff: 7
+Slack 0
+Earliest Start: 206
+Lastest Start: 206
+Tasks dependent on this: 
+
+These Tasks are critical: 
+ 31 22 21 11 9

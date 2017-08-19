@@ -1,0 +1,1 @@
+FSP'en gjør som beskrevet i oppgave teksten. oppgave 3 og 5 er ikke helt fungerende.

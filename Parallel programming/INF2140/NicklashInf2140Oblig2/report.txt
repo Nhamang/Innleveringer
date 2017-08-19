@@ -1,0 +1,1 @@
+Det eneste jeg kan se som ikke funker helt er at lege stol ikke går innom ledig mellom pasienter.

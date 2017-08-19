@@ -1,0 +1,1 @@
+Kretsen inneholder en 16-count, program minne (ROM), data minne(RAM), en 74374 celle, to 74244 celler og instruksjons bus.

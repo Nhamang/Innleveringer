@@ -1,0 +1,7 @@
+<suite name="Testreport">
+	<test name="OrderedSetTest">
+		<classes>
+			 <class name="inf1010.assignment.OrderedSetTest"/>
+		</classes>
+	</test>
+</suite>

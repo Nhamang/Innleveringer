@@ -1,0 +1,1 @@
+programmet vil ikke kompilere, skrevet kommentar til javadoc men fikk ikke generert javadoc.
